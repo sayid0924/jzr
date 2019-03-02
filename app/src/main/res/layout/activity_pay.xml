@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jzr.bedside.ui.ExpenseActivity">
+
+    <include
+        android:id="@+id/rootbar"
+        layout="@layout/actionbar_root_layout" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_3dp"
+        android:layout_below="@id/rootbar"
+        android:background="#14AB8C" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_70dp"
+        android:background="#FF7C41">
+
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="@dimen/bj_120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/inspection_00"/>
+
+        <TextView
+            android:layout_toRightOf="@id/iv_logo"
+            android:id="@+id/tv_ex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:gravity="center|left"
+            android:text="已缴费:  "
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+        <TextView
+            android:id="@+id/tv_alreadypaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_toRightOf="@+id/tv_ex"
+            android:gravity="center|left"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/bj_30dp"
+            android:layout_toLeftOf="@+id/tv_balance"
+            android:text="余额:  "
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/bj_200dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+
+        android:background="@drawable/record_bg"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_20dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/bj_20dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_60dp"
+            android:background="#FCD5B4"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj_20dp"
+                android:text="冲值通道"
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="35sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_marginRight="@dimen/bj_20dp"
+            android:layout_marginTop="@dimen/bj_20dp"
+            android:text="感谢您对我们医院工作的支持 \n目前医院已开通支付宝,微信充值通道,您可以选择适合您的支付方式. \n在填写订单页面下方选择"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_marginTop="30dp"
+            android:text="请选择支付方式"
+            android:textColor="#FF7C41"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_marginBottom="@dimen/bj_100dp"
+            android:layout_marginTop="@dimen/bj_50dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/zhifub" />
+
+            <ImageView
+                android:layout_marginLeft="@dimen/bj_50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/weixin" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

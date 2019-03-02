@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_doctor_advice"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_url"
+        android:layout_width="@dimen/bj_250dp"
+        android:layout_height="@dimen/bj_250dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        android:background="@drawable/yiyuanglogo"/>
+
+    <TextView
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="gggggg"
+        android:textColor="@color/color_2B2B2B"
+        android:textSize="30sp" />
+
+
+
+</LinearLayout>
+
+

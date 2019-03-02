@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.MainActivity">
+
+
+    <include
+        android:id="@+id/rootbar"
+        layout="@layout/actionbar_root_layout" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_3dp"
+        android:layout_below="@id/rootbar"
+        android:background="#00A0E9" />
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true">
+
+        <View
+            android:id="@+id/settings_area"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="#00FFFFFF" />
+
+    </FrameLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view_line"
+        android:background="@drawable/home_bg"
+        android:orientation="horizontal">
+
+        <include layout="@layout/include_patient_info" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bj_20dp"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_marginRight="@dimen/bj_20dp"
+            android:layout_marginTop="@dimen/bj_30dp"
+            android:layout_toRightOf="@+id/patient_info"
+            android:background="@drawable/rvlayout_bg">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_doctor_advice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/bj_20dp"
+                android:layout_marginRight="@dimen/bj_20dp"
+                android:layout_marginTop="@dimen/bj_20dp"
+                android:overScrollMode="never" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

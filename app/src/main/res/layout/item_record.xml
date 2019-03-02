@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_doctor_advice"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/bj_20dp"
+    android:layout_marginRight="@dimen/bj_20dp"
+    android:layout_marginTop="@dimen/bj_50dp"
+    android:background="@drawable/record_bg"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_10dp"
+        android:gravity="center|left"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="服药日期 : "
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_180dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="药品发放护士 : "
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_80dp"
+        android:layout_gravity="center"
+        android:background="#FBD4B3"
+        android:gravity="center|left"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/bj_100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="序号"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="@dimen/bj_2dp"
+            android:layout_height="match_parent"
+            android:background="#D0D0D0" />
+
+        <TextView
+            android:layout_width="600dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="药品名称及规格"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="@dimen/bj_2dp"
+            android:layout_height="match_parent"
+            android:background="#D0D0D0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="药物用量用法"
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bj_2dp"
+                android:background="#D0D0D0" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/bj_100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="早餐"
+                    android:textColor="@color/color_2B2B2B"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="@dimen/bj_2dp"
+                    android:layout_height="match_parent"
+                    android:background="#D0D0D0" />
+
+                <TextView
+                    android:layout_width="@dimen/bj_100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="中餐"
+                    android:textColor="@color/color_2B2B2B"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="@dimen/bj_2dp"
+                    android:layout_height="match_parent"
+                    android:background="#D0D0D0" />
+
+                <TextView
+                    android:layout_width="@dimen/bj_100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="晚餐"
+                    android:textColor="@color/color_2B2B2B"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="@dimen/bj_2dp"
+                    android:layout_height="match_parent"
+                    android:background="#D0D0D0" />
+
+                <TextView
+                    android:layout_width="@dimen/bj_100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="睡前"
+                    android:textColor="@color/color_2B2B2B"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="@dimen/bj_2dp"
+                    android:layout_height="match_parent"
+                    android:background="#D0D0D0" />
+
+                <TextView
+                    android:layout_width="@dimen/bj_100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="其他"
+                    android:textColor="@color/color_2B2B2B"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_20dp"
+        android:layout_marginBottom="@dimen/bj_20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="备注: "
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:text=""
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+

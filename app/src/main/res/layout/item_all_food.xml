@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_hospital"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bj_100dp">
+
+
+    <ImageView
+        android:id="@+id/iv_url"
+        android:layout_width="@dimen/bj_80dp"
+        android:layout_height="@dimen/bj_80dp"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_launcher" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginTop="@dimen/bj_10dp"
+        android:layout_toRightOf="@+id/iv_url">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="鸡蛋小炒肉饭"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/bj_20dp"
+            android:layout_toLeftOf="@+id/tv_fen"
+            android:text="50"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_fen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="元/份"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_dec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginTop="@dimen/bj_20dp"
+            android:text="dec"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_20sp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
+

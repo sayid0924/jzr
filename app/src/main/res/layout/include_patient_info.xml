@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/patient_info"
+    android:layout_width="800dp"
+    android:layout_height="680dp"
+    android:layout_marginLeft="@dimen/bj_30dp"
+    android:layout_marginTop="@dimen/bj_30dp"
+    android:background="@drawable/linearlayout_bg"
+    tools:context="com.jzr.bedside.ui.SettingActivity">
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_50dp"
+        android:layout_marginTop="@dimen/bj_50dp"
+        android:maxHeight="@dimen/bj_90dp"
+        android:maxWidth="@dimen/bj_310dp"
+        android:text=""
+        android:textColor="@color/color_00A0E9"
+        android:textSize="70sp" />
+
+
+    <TextView
+        android:id="@+id/tv_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_50dp"
+        android:layout_marginTop="@dimen/bj_80dp"
+        android:layout_toRightOf="@+id/tv_name"
+        android:text=""
+        android:textColor="@color/color_2B2B2B"
+        android:textSize="50sp" />
+
+
+    <TextView
+        android:id="@+id/tv_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj_50dp"
+        android:layout_marginTop="@dimen/bj_80dp"
+        android:layout_toRightOf="@+id/tv_sex"
+        android:text=""
+        android:textColor="@color/color_2B2B2B"
+        android:textSize="50sp" />
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_qrcode"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="@dimen/bj_20dp"-->
+    <!--android:layout_toRightOf="@+id/tv_age" />-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginLeft="@dimen/bj_50dp"
+        android:layout_marginTop="@dimen/bj_50dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_patient_no"
+                    style="@style/patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="床    号: " />
+
+                <TextView
+                    android:id="@+id/tv_bednum"
+                    style="@style/patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_patient_no"
+                    android:text="" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bj_1dp"
+                    android:layout_below="@+id/tv_bednum"
+                    android:layout_marginRight="@dimen/bj_50dp"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:background="#BBBBBB" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_dutydoctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_main_doctor"
+                    style="@style/patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="主治医生: "
+                    android:textColor="@color/color_2B2B2B" />
+
+                <TextView
+                    android:id="@+id/tv_dutydoctor"
+                    style="@style/patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_main_doctor"
+                    android:text=""
+                    android:textColor="@color/color_2B2B2B" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bj_1dp"
+                    android:layout_below="@+id/tv_dutydoctor"
+                    android:layout_marginRight="@dimen/bj_30dp"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:background="#BBBBBB" />
+
+            </RelativeLayout>
+
+            <!--<RelativeLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_nurse_level"-->
+            <!--style="@style/patient_text"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="护理级别: "-->
+            <!--android:textColor="@color/color_2B2B2B" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_nurseLevel"-->
+            <!--style="@style/patient_text"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@+id/tv_nurse_level"-->
+            <!--android:text=""-->
+            <!--android:textColor="@color/color_2B2B2B" />-->
+
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/bj_1dp"-->
+            <!--android:layout_below="@+id/tv_nurse_level"-->
+            <!--android:layout_marginRight="@dimen/bj_30dp"-->
+            <!--android:layout_marginTop="@dimen/bj_5dp"-->
+            <!--android:background="#BBBBBB" />-->
+
+            <!--</RelativeLayout>-->
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/patient_marginTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_inpatient_number"
+                    style="@style/patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="住院号: " />
+
+                <TextView
+                    android:id="@+id/tv_cureno"
+                    style="@style/patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_inpatient_number"
+                    android:text="" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bj_1dp"
+                    android:layout_below="@+id/tv_inpatient_number"
+                    android:layout_marginRight="@dimen/bj_50dp"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:background="#BBBBBB" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_dutyNurse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_main_nurse"
+                    style="@style/patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="责任护士: "
+                    android:textColor="@color/color_2B2B2B" />
+
+                <TextView
+                    android:id="@+id/tv_dutyNurse"
+                    style="@style/patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_main_nurse"
+                    android:text=""
+                    android:textColor="@color/color_2B2B2B" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bj_1dp"
+                    android:layout_below="@+id/tv_dutyNurse"
+                    android:layout_marginRight="@dimen/bj_30dp"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:background="#BBBBBB" />
+
+            </RelativeLayout>
+
+            <!--<RelativeLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_allergy_type"-->
+            <!--style="@style/patient_text"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="过敏类型: "-->
+            <!--android:textColor="@color/color_2B2B2B" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_allergyContent"-->
+            <!--style="@style/patient_text"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@+id/tv_allergy_type"-->
+            <!--android:text=""-->
+            <!--android:textColor="@color/color_2B2B2B" />-->
+
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/bj_1dp"-->
+            <!--android:layout_below="@+id/tv_allergy_type"-->
+            <!--android:layout_marginRight="@dimen/bj_30dp"-->
+            <!--android:layout_marginTop="@dimen/bj_5dp"-->
+            <!--android:background="#BBBBBB" />-->
+
+            <!--</RelativeLayout>-->
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/patient_marginTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_join_hospital_time"
+                        style="@style/patient_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="入院时间: " />
+
+                    <TextView
+                        android:id="@+id/tv_admissionTime"
+                        style="@style/patient_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tv_join_hospital_time"
+                        android:text=""
+                        android:textColor="@color/color_2B2B2B" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/bj_1dp"
+                        android:layout_below="@+id/tv_join_hospital_time"
+                        android:layout_marginRight="@dimen/bj_50dp"
+                        android:layout_marginTop="@dimen/bj_5dp"
+                        android:background="#BBBBBB"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/bj_1dp"
+                    android:layout_marginRight="@dimen/bj_50dp"
+                    android:layout_marginTop="@dimen/bj_5dp"
+                    android:background="#BBBBBB" />
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/bj_20dp">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_hospital_info"-->
+                        <!--style="@style/patient_text"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="入院珍断: " />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_hospital"-->
+                        <!--style="@style/patient_text"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@+id/tv_hospital_info"-->
+                        <!--android:text=""-->
+                        <!--android:textColor="@color/color_2B2B2B" />-->
+
+                    <!--<View-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="@dimen/bj_1dp"-->
+                        <!--android:layout_below="@+id/tv_hospital_info"-->
+                        <!--android:layout_marginRight="@dimen/bj_50dp"-->
+                        <!--android:layout_marginTop="@dimen/bj_5dp"-->
+                        <!--android:background="#BBBBBB" />-->
+
+                <!--</RelativeLayout>-->
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/iv_qrcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+
+            <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_dutydoctor"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_main_doctor"-->
+            <!--style="@style/patient_text"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="主治医生: "-->
+            <!--android:textColor="@color/color_2B2B2B" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_dutydoctor"-->
+            <!--style="@style/patient_text"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@+id/tv_main_doctor"-->
+            <!--android:text=""-->
+            <!--android:textColor="@color/color_2B2B2B" />-->
+
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/bj_1dp"-->
+            <!--android:layout_below="@+id/tv_dutydoctor"-->
+            <!--android:layout_marginRight="@dimen/bj_30dp"-->
+            <!--android:layout_marginTop="@dimen/bj_5dp"-->
+            <!--android:background="#BBBBBB" />-->
+
+            <!--</RelativeLayout>-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/bj_20dp"
+            style="@style/patient_marginTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/bj_20dp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_tip"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="温馨提示: "-->
+                    <!--android:textColor="@color/color_00A0E9"-->
+                    <!--android:textSize="@dimen/wz_25sp" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/bj_5dp"-->
+                    <!--android:layout_toRightOf="@+id/tv_tip"-->
+                    <!--android:text="明天上午八点抽血,今晚九点以后禁食 "-->
+                    <!--android:textColor="@color/color_00A0E9"-->
+                    <!--android:textSize="@dimen/wz_25sp" />-->
+
+            <!--</RelativeLayout>-->
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.jzr.bedside.ui.SettingActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_EEEEEE">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bj_60dp"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:gravity="center|left"
+            android:text="@string/system"
+            android:textSize="@dimen/wz_25sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="服务器IP"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <EditText
+            android:id="@+id/ed_service_ip"
+            android:layout_width="@dimen/bj_350dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edittext_bg"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <TextView
+            android:id="@+id/tv_connecttest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/bj_10dp"
+            android:drawableRight="@drawable/test_icon"
+            android:text="网络连接测试"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="端口号"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <EditText
+            android:id="@+id/ed_service_port"
+            android:layout_width="@dimen/bj_350dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edittext_bg"
+            android:gravity="center"
+            android:text="80"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <ImageView
+            android:id="@+id/iv_service_port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_25dp"
+            android:background="@drawable/test_result_fail"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Socket IP"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <EditText
+            android:id="@+id/ed_socket_ip"
+            android:layout_width="@dimen/bj_350dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edittext_bg"
+            android:gravity="center"
+            android:text="8880"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <ImageView
+            android:id="@+id/iv_socket_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_25dp"
+            android:background="@drawable/test_result_fail"
+            android:textColor="@color/color_2B2B2B"
+            android:visibility="gone"
+            android:textSize="@dimen/wz_25sp" />
+
+        <TextView
+            android:id="@+id/tv_socket_connecttest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/bj_10dp"
+            android:drawableRight="@drawable/test_icon"
+            android:text="Socket连接测试"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Socket端口号"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <EditText
+            android:id="@+id/ed_socket_port"
+            android:layout_width="@dimen/bj_350dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edittext_bg"
+            android:gravity="center"
+            android:text="8880"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <ImageView
+            android:id="@+id/iv_socket_port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_25dp"
+            android:background="@drawable/test_result_fail"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="护理看板IP"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <EditText
+            android:id="@+id/ed_look_ip"
+            android:layout_width="@dimen/bj_350dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edittext_bg"
+            android:gravity="center"
+            android:text="8880"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:layout_toLeftOf="@+id/tv_wifi_info"
+            android:id="@+id/tv_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center|left"
+            android:layout_centerVertical="true"
+            android:text="WIFI"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <Switch
+            android:id="@+id/switch_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_10dp"
+            android:switchMinWidth="20dp"
+            android:thumb="@drawable/thumb"
+            android:track="@drawable/track" />
+
+        <TextView
+
+            android:id="@+id/tv_wifi_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_10dp"
+            android:layout_toLeftOf="@+id/iv_wifi_level"
+            android:text="ddddddd"
+            android:textSize="@dimen/wz_25sp" />
+
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_wifi_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/bj_10dp"
+            android:layout_toLeftOf="@+id/switch_wifi"
+            android:background="@drawable/wifi_0" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:id="@+id/tv_logcat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center|left"
+            android:layout_centerVertical="true"
+            android:text="打开Locgcat"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <Switch
+            android:id="@+id/switch_logcat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj_10dp"
+            android:switchMinWidth="20dp"
+            android:thumb="@drawable/thumb"
+            android:track="@drawable/track" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+
+</LinearLayout>

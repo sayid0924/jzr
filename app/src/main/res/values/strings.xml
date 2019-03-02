@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">床旁交互系</string>
+
+    <string name="default_server_url">192.168.2.235</string>
+    <string name="server_port">8100</string>
+
+
+    <!--<string name="default_server_url">10.100.1.133</string>-->
+    <!--<string name="server_port">1111</string>-->
+
+
+
+    <string name="socket_port">8111</string>
+    <string name="socket_ip">192.168.0.111</string>
+    <string name="look_ip">192.168.57.99</string>
+    <string name="rabbit_ip">172.30.1.246</string>
+    <string name="rabbit_port">5672</string>
+    <string name="queue_name">mail.test</string>
+    <string name="device_name">xxx病人</string>
+
+    <string name="bedside">床旁交互系统</string>
+    <string name="system">系统</string>
+    
+    <string name="doc">深圳市萨米医疗中心位于深圳市坪山区金牛西路1号，占地6.8万平方米。一期建筑面积为13.7万平方米，一期计划开放病床600张。是深圳市直属的非营利性公立医院，预计于2017年12月31日前开业。
+
+2016年5月，在深圳市政府的大力推动下，深圳市公立医院管理中心和德国汉诺威国际医学创新公司在深签署协议，由世界神经外科联合会终身荣誉主席萨米教授及其团队和中方一起合作建设、运营我院。
+
+深圳市萨米医疗中心按照 “大综合、强专科”定位，并依据三级综合医院的标准设置科室，以神经专科为重点，涵盖临床各科。我院拟把神经专科建成国内一流学科，特别力争把神经外科打造成国际一流学科。为实现这一宏伟目标，我院重点强调杂交手术室和神经专科ICU (NICU)的建设，并把它们列为重中之重。杂交手术室内配置3.0T MRI、CT、高端DSA、手术导航系统、高档手术显微镜等。
+
+我院实行去编制化全员聘用的员额制，薪酬制度为年薪制。
+    </string>
+
+
+</resources>

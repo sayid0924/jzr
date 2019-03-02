@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="#FF7C41"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="@dimen/bj_70dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:text="深圳市萨米医疗中心"
+            android:textSize="35sp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:background="@drawable/record_bg"
+        android:textSize="30sp"
+        android:padding="@dimen/bj_20dp"
+        android:layout_margin="@dimen/bj_20dp"
+        android:layout_width="match_parent"
+        android:textColor="@color/color_2B2B2B"
+        android:text="地址 : 深圳市坪山区金牛西路1号\n \n24小时服务热线：18138805999 "
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_phone"/>
+
+</LinearLayout>

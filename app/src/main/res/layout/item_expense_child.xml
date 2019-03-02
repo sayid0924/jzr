@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_doctor_advice"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center|left"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_no"
+            android:layout_width="@dimen/bj_100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="序号"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="30sp"/>
+
+        <View
+            android:layout_width="@dimen/bj_2dp"
+            android:layout_height="match_parent"
+            android:background="#D0D0D0" />
+
+        <TextView
+            android:id="@+id/tv_expensesname"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="收费项目"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="30sp" />
+
+        <View
+            android:layout_width="@dimen/bj_2dp"
+            android:layout_height="match_parent"
+            android:background="#D0D0D0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="@dimen/bj_150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="单位"
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp" />
+
+            <View
+                android:layout_width="@dimen/bj_2dp"
+                android:layout_height="match_parent"
+                android:background="#D0D0D0" />
+
+            <TextView
+                android:id="@+id/tv_unitprice"
+                android:layout_width="@dimen/bj_150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="单价"
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp" />
+
+            <View
+                android:layout_width="@dimen/bj_2dp"
+                android:layout_height="match_parent"
+                android:background="#D0D0D0" />
+
+            <TextView
+                android:layout_width="@dimen/bj_150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="数量"
+                android:id="@+id/tv_number"
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp"/>
+
+            <View
+                android:layout_width="@dimen/bj_2dp"
+                android:layout_height="match_parent"
+                android:background="#D0D0D0" />
+
+            <TextView
+                android:id="@+id/tv_amountofmoney"
+                android:layout_width="@dimen/bj_150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="金额"
+                android:textColor="@color/color_2B2B2B"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="#D0D0D0" />
+
+</LinearLayout>
+
+

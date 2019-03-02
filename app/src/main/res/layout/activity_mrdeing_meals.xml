@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jzr.bedside.ui.HospitalActivity">
+
+    <include
+        android:id="@+id/rootbar"
+        layout="@layout/actionbar_root_layout" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_3dp"
+        android:layout_below="@id/rootbar"
+        android:background="#14AB8C" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#3C3E3F">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/bj_50dp"
+                android:src="@drawable/dianchangleftpage" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/iv_logo"
+                android:layout_marginTop="@dimen/bj_20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="院内点餐"
+                    android:textColor="@color/white"
+                    android:textSize="35sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bj_2dp"
+                    android:background="#7D7C81" />
+
+                <com.jzr.bedside.view.verticaltablayout.VerticalTabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#3C3E3F"
+                    app:dividerColor="@android:color/holo_blue_dark"
+                    app:dividerHeight="1px"
+                    app:dividerPadding="15dp"
+                    android:layout_marginTop="@dimen/bj_20dp"
+                    app:tabArrowColor="#169BFF"
+
+                    app:tabArrowType="outer"
+                    app:tabHeight="50dp"
+
+                    app:tabIconPadding="8dp"
+                    app:tabIndicatorColor="#169BFF"
+                    app:tabIndicatorGravity="fill"
+                    app:tabIndicatorWidth="15dp"
+                    app:tabPaddingLeft="20dp"
+                    app:tabSelectedTextColor="@android:color/white"
+                    app:tabTextColor="#71AB30"
+                    app:tabTextSize="35sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="@dimen/bj_3dp"
+            android:layout_height="match_parent"
+            android:background="#7D7C81" />
+
+        <com.jzr.bedside.view.NoScrollViewPager
+            android:id="@+id/vp"
+            android:layout_weight="4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
