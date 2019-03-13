@@ -40,6 +40,12 @@ public class ContentsActivity extends BaseActivity {
     ImageView ivCctv;
     @BindView(R.id.iv_mrdering_meals)
     ImageView ivMrderingMeals;
+    @BindView(R.id.iv_temp)
+    ImageView ivTemp;
+    @BindView(R.id.iv_oximetry)
+    ImageView ivOximetry;
+    @BindView(R.id.iv_bloodpressur)
+    ImageView ivBloodpressur;
     @BindView(R.id.left_title)
     TextView leftTitle;
 
@@ -76,7 +82,7 @@ public class ContentsActivity extends BaseActivity {
 
     @OnClick({R.id.iv_right_back, R.id.iv_right, R.id.iv_hospital, R.id.iv_cctv,
             R.id.iv_record, R.id.iv_Service, R.id.iv_video,R.id.iv_expense,R.id.iv_pay,
-            R.id.iv_mrdering_meals})
+            R.id.iv_mrdering_meals,R.id.iv_temp,R.id.iv_oximetry,R.id.iv_bloodpressur})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_right_back:
@@ -108,6 +114,15 @@ public class ContentsActivity extends BaseActivity {
                 break;
             case R.id.iv_mrdering_meals:
                 startActivityIn(new Intent(ContentsActivity.this, MrdeingMealsActivity.class), ContentsActivity.this);
+                break;
+            case R.id.iv_temp:
+                startActivityIn(new Intent(ContentsActivity.this, GaugeTempActivity.class), ContentsActivity.this);
+                break;
+            case R.id.iv_oximetry:
+                startActivityIn(new Intent(ContentsActivity.this, OximetryActivity.class), ContentsActivity.this);
+                break;
+            case R.id.iv_bloodpressur:
+                startActivityIn(new Intent(ContentsActivity.this, BloodPressureActivity.class), ContentsActivity.this);
                 break;
         }
     }

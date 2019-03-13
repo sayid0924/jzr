@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <uses-permission android:name="android.permission.read_logs" />
 
     <!-- 调用硬件相机权限 -->
@@ -29,13 +28,20 @@
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <!-- 蓝牙 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name=".base.BaseApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity"
+        <activity
+            android:name=".ui.MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -84,6 +90,8 @@
         </service>
         <service android:name=".service.nettyUtils.NettyService" />
         <service android:name=".service.RabbitMQService" />
+        <service android:name=".service.bluetooth.BluetoothLEService" />
+        <service android:name=".service.bluetooth.BluetoothLEService" />
 
         <activity android:name=".ui.DutyDoctorActivity" />
         <activity
@@ -91,8 +99,11 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.ExpenseActivity" />
         <activity android:name=".ui.PayActivity" />
-        <activity android:name=".ui.MrdeingMealsActivity"/>
-        <!--<activity android:name=".ui.VideoChat.VideoChatActivity"/>-->
+        <activity android:name=".ui.MrdeingMealsActivity" />
+        <!-- <activity android:name=".ui.VideoChat.VideoChatActivity"/> -->
+        <activity android:name=".ui.GaugeTempActivity" />
+        <activity android:name=".ui.OximetryActivity" />
+        <activity android:name=".ui.BloodPressureActivity"></activity>
     </application>
 
 </manifest>

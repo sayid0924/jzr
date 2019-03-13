@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.GaugeTempActivity">
+
+    <include
+        android:id="@+id/rootbar"
+        layout="@layout/actionbar_root_layout" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_3dp"
+        android:layout_below="@id/rootbar"
+        android:background="#14AB8C" />
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_70dp"
+        android:layout_below="@+id/view_line"
+        android:background="#FF7C41">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="@dimen/bj_120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/hospital_00" />
+
+        <TextView
+            android:id="@+id/tv_ex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_toRightOf="@+id/iv_logo"
+            android:gravity="center|left"
+            android:text="測量血仪压"
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_serach_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="正在扫描设备"
+            android:layout_margin="@dimen/bj_20dp"
+            android:background="@drawable/button_bg"
+            android:textColor="@color/white"
+            android:padding="@dimen/bj_10dp"
+            android:textSize="@dimen/wz_25sp" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_pd"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/pb"
+                android:layout_width="@dimen/bj_60dp"
+                android:layout_height="@dimen/bj_60dp"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_device"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/ll_dash"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_400dp"
+        android:layout_below="@+id/rl_top"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/bj_20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/but_start"
+            android:layout_width="125dp"
+            android:layout_height="@dimen/bj_60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/bj_15dp"
+            android:background="@drawable/button_bg"
+            android:text="开始测量"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wz_20sp" />
+
+        <com.jzr.bedside.view.WaveProgress
+            android:id="@+id/wave_progress_bar"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            app:darkWaveAnimTime="1000"
+            app:darkWaveColor="@color/dark"
+            app:lightWaveAnimTime="2000"
+            app:lightWaveColor="@color/light"
+            app:lightWaveDirect="R2L"
+            app:lockWave="false"
+            app:valueSize="35sp"
+            app:waveHeight="30dp"
+            app:waveNum="1" />
+
+    </FrameLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_bot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/bj_10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/bj_10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/bj_20dp"
+                    android:gravity="center"
+                    android:text="当前脉搏率"
+                    android:textSize="30sp" />
+
+                <com.jzr.bedside.view.tv.RiseNumberTextView
+                    android:id="@+id/tv_pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginLeft="@dimen/bj_10dp"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/bj_20dp"
+                    android:gravity="center"
+                    android:text="mmHg"
+                    android:textSize="30sp" />
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/bj_30dp"
+                android:gravity="center"
+                android:text="本次测量结果"
+                android:textSize="@dimen/wz_25sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bj_20dp"
+                android:layout_marginTop="@dimen/bj_20dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收缩压 : "
+                        android:textSize="@dimen/wz_25sp" />
+
+                    <TextView
+                        android:id="@+id/tv_sbp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj_20dp"
+                        android:text="0"
+                        android:textSize="@dimen/wz_25sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj_5dp"
+                        android:text="mmHg"
+                        android:textSize="@dimen/wz_25sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="舒张压"
+                        android:textSize="@dimen/wz_25sp" />
+
+                    <TextView
+                        android:id="@+id/tv_dbp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj_20dp"
+                        android:text="0"
+                        android:textSize="@dimen/wz_25sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj_5dp"
+                        android:text="mmHg"
+                        android:textSize="@dimen/wz_25sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bj_20dp"
+                android:layout_marginTop="@dimen/bj_20dp"
+                android:layout_marginBottom="@dimen/bj_50dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="脉搏率"
+                        android:textSize="@dimen/wz_25sp" />
+
+                    <TextView
+                        android:id="@+id/tv_pulse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj_20dp"
+                        android:text="0"
+                        android:textSize="@dimen/wz_25sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj_5dp"
+                        android:text="bpm"
+                        android:textSize="@dimen/wz_25sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="测试时间"
+                        android:textSize="@dimen/wz_25sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj_20dp"
+                        android:text="0"
+                        android:textSize="@dimen/wz_25sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

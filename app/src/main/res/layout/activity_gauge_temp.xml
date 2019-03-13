@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.GaugeTempActivity">
+
+    <include
+        android:id="@+id/rootbar"
+        layout="@layout/actionbar_root_layout" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_3dp"
+        android:layout_below="@id/rootbar"
+        android:background="#14AB8C" />
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_70dp"
+        android:layout_below="@+id/view_line"
+        android:background="#FF7C41">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="@dimen/bj_120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/hospital_00" />
+
+        <TextView
+            android:id="@+id/tv_ex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_toRightOf="@+id/iv_logo"
+            android:gravity="center|left"
+            android:text="測量血氧仪"
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_serach_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="正在扫描设备"
+            android:layout_margin="@dimen/bj_20dp"
+            android:background="@drawable/button_bg"
+            android:textColor="@color/white"
+            android:padding="@dimen/bj_10dp"
+            android:textSize="@dimen/wz_25sp" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_pd"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/pb"
+                android:layout_width="@dimen/bj_60dp"
+                android:layout_height="@dimen/bj_60dp"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_device"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_dash"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_400dp"
+        android:layout_below="@+id/rl_top"
+        android:orientation="horizontal">
+
+
+        <com.jzr.bedside.view.RoundIndicatorView
+            android:id="@+id/dash_left"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/bj_10dp"
+            android:background="@color/white"
+            android:layout_height="@dimen/bj_400dp" />
+
+        <com.jzr.bedside.view.RoundIndicatorView
+            android:id="@+id/dash_right"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/bj_10dp"
+            android:layout_height="@dimen/bj_400dp" />
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/ll_father"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="5dp"
+        android:layout_marginBottom="@dimen/bj_10dp"
+        android:paddingRight="5dp">
+
+        <LinearLayout
+            android:id="@+id/graph3_father"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="5">
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</RelativeLayout>

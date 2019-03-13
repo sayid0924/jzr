@@ -34,6 +34,7 @@ public class NettyClient {
     private int reconnectNum = Integer.MAX_VALUE;
 
     private long reconnectIntervalTime = 5000;
+    private Bootstrap bootstrap;
 
     public static NettyClient getInstance() {
         return nettyClient;
@@ -42,7 +43,7 @@ public class NettyClient {
     public synchronized NettyClient connect() {
         if (!isConnect) {
             group = new NioEventLoopGroup();
-            Bootstrap bootstrap = new Bootstrap().group(group)
+             bootstrap = new Bootstrap().group(group)
                     .option(ChannelOption.SO_KEEPALIVE, true)
                     .channel(NioSocketChannel.class)
 //					.handler(new NettyClientInitializer(listener));
@@ -81,8 +82,10 @@ public class NettyClient {
     public void disconnect() {
         if (EmptyUtils.isNotEmpty(group))
             group.shutdownGracefully();
+        if(bootstrap!=null){
+            bootstrap =null;
+        }
     }
-
 
     public void reconnect() {
         if (reconnectNum > 0 && !isConnect) {
@@ -91,7 +94,7 @@ public class NettyClient {
                 Thread.sleep(reconnectIntervalTime);
             } catch (InterruptedException e) {
             }
-            Logger.e("重新连接");
+//            Logger.e("重新连接");
             disconnect();
             connect();
         } else {

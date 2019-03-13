@@ -57,6 +57,15 @@ android {
         abortOnError false
     }
 
+    allprojects {
+        repositories {
+            jcenter()
+            flatDir {
+                dir 'libs'
+            }
+        }
+    }
+
 }
 
 dependencies {
@@ -96,5 +105,7 @@ dependencies {
     implementation 'com.dou361.ijkplayer:jjdxm-ijkplayer:1.0.5'
     implementation 'com.github.yhaolpz:FloatWindow:1.0.9'
 
-
+    implementation 'com.inuker.bluetooth:library:1.4.0'
+    implementation(name: 'MedxingDev', ext: 'aar')
+    implementation(name: 'ecgwavelibrary-release', ext: 'aar')
 }

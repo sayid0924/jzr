@@ -83,4 +83,34 @@ public class MainActivityPresenter extends BasePresenter<MainContract.View> impl
                     }
                 }));
     }
+
+    @Override
+    public void downApp(String... s) {
+        addSubscrebe(Api.getInstance().bedcardGetbedinfo(s)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new Observer<BedInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(e.toString());
+                        mContext.hideWaitingDialog();
+                        mView.bedcardGetbedinfoFail();
+                    }
+
+                    @Override
+                    public void onNext(BedInfoBean data) {
+                        mContext.hideWaitingDialog();
+                        if (mView != null && data != null && data.getCode() == 0) {
+                            mView.bedcardGetbedinfoSuccess(data);
+                        } else
+                            ToastUtils.showLongToast("请求错误  请重新请求........");
+                    }
+                }));
+    }
 }

@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -15,6 +16,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.AppUtils;
+import com.blankj.utilcode.utils.FileUtils;
+import com.blankj.utilcode.utils.Utils;
 import com.jzr.bedside.R;
 import com.jzr.bedside.base.BaseActivity;
 import com.jzr.bedside.bean.BedInfoBean;
@@ -27,14 +31,20 @@ import com.jzr.bedside.ui.apadter.DoctorAdviceApadter;
 import com.jzr.bedside.utils.AreaClickListener;
 import com.jzr.bedside.utils.CommonUtil;
 import com.jzr.bedside.utils.GreenDaoUtil;
+import com.jzr.bedside.utils.Permission;
 import com.jzr.bedside.utils.PreferUtil;
 import com.jzr.bedside.utils.QRCodeUtil;
 import com.jzr.bedside.service.nettyUtils.NettyService;
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.TimeUtils;
+import com.medxing.sdk.resolve.IrtResolve;
+import com.medxing.sdk.resolve.ResolveManager;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +102,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     ImageView ivQrcode;
     private PopupWindow p;
     public static MainActivity mainActivity = null;
-
+    private ResolveManager resolveManager;
 
     @Override
     public int getLayoutId() {
@@ -112,6 +122,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void initView() {
         setSwipeBackEnable(false);
+        Permission.requestPermission(this);
         collectionInfoDao = GreenDaoUtil.getDaoSession().getBedInfoBeanDbDao();
         if (!PreferUtil.getInstance().getIsFirst()) {
             startActivityIn(new Intent(this, SettingActivity.class), this);
@@ -146,6 +157,38 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         mainActivity = this;
 
 
+//        FileUtils.createOrExistsFile(Utils.getContext().getExternalCacheDir()+"app");
+
+
+//        resolveManager = ResolveManager.getInstance(this);
+//        resolveManager.setOnIrtResolveListener(new ResolveManager.OnIrtResolveListener() {
+//            @Override
+//            public void onIrtResolve(IrtResolve irtResolve) {
+//                Logger.e("==================================================");
+//                Logger.e(irtResolve.toString());
+//
+//            }
+//        });
+//        createFile("app");
+      boolean d =  AppUtils.installAppSilent(Environment.getExternalStorageDirectory() + "/" +"app"+"/"+"app-release.apk");
+      Logger.e(String.valueOf(d));
+    }
+
+
+    public void createFile(String fileName) {
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
+        if (fileName.indexOf(".") != -1) {
+            // 说明包含，即使创建文件, 返回值为-1就说明不包含.,即使文件
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Logger.e("App");
+        } else {
+            // 创建文件夹
+            file.mkdir();
+        }
     }
 
 
@@ -273,23 +316,23 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         tpatientVoBean.setAdmissionTime("2019-02-28");
 
         List<BedInfoBean.DataBean.TpatientVoBean.TdoctorBrieflyVoListBean> voListBeans = new ArrayList<>();
-        voListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TdoctorBrieflyVoListBean(17,"崔洪涛",0));
+        voListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TdoctorBrieflyVoListBean(17, "崔洪涛", 0));
         tpatientVoBean.setTdoctorBrieflyVoList(voListBeans);
 
         List<BedInfoBean.DataBean.TpatientVoBean.TnurseBrieflyVoListBean> tnurseBrieflyVoList = new ArrayList<>();
-        tnurseBrieflyVoList.add(new BedInfoBean.DataBean.TpatientVoBean.TnurseBrieflyVoListBean(1,"徐丽",2));
+        tnurseBrieflyVoList.add(new BedInfoBean.DataBean.TpatientVoBean.TnurseBrieflyVoListBean(1, "徐丽", 2));
         tpatientVoBean.setTnurseBrieflyVoList(tnurseBrieflyVoList);
 
-        List<BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean>  tcareLableVoListBeans = new ArrayList<>();
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"防跌倒","#B22222",null,1,null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"靜脉营养","#FE5CD5",null,1,null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"禁饮水","#FD7B09",null,1,null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"低钠低脂","#459187",null,1,null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"特殊检查","#0092DF",null,1,null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"卧床","#DD127B",null,1,null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"流质","#FFC900",null,1,null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"过敏体质","#459187",null,1,null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1,"危重","#DA251C",null,1,null));
+        List<BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean> tcareLableVoListBeans = new ArrayList<>();
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "防跌倒", "#B22222", null, 1, null));
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "靜脉营养", "#FE5CD5", null, 1, null));
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "禁饮水", "#FD7B09", null, 1, null));
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "低钠低脂", "#459187", null, 1, null));
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "特殊检查", "#0092DF", null, 1, null));
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "卧床", "#DD127B", null, 1, null));
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "流质", "#FFC900", null, 1, null));
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "过敏体质", "#459187", null, 1, null));
+        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "危重", "#DA251C", null, 1, null));
 
         tpatientVoBean.setTcareLableVoList(tcareLableVoListBeans);
         dataBean.setTpatientVo(tpatientVoBean);
@@ -432,6 +475,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         initData();
     }
 
+    @Override
+    public void downAppSuccess() {
+
+    }
+
 
     @Override
     public void showError(String message) {
@@ -456,6 +504,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 }
                 break;
             case R.id.iv_right:
+//                toggleRing();
                 startActivityIn(new Intent(this, ContentsActivity.class), this);
                 break;
         }

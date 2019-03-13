@@ -85,8 +85,6 @@
             android:layout_weight="1"
             android:src="@drawable/zhifu" />
 
-
-
         <ImageView
             android:visibility="visible"
             android:id="@+id/iv_record"
@@ -106,12 +104,40 @@
             android:src="@drawable/button5" />
 
         <ImageView
-            android:visibility="invisible"
+            android:id="@+id/iv_temp"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/bj_50dp"
             android:layout_weight="1"
-            android:src="@drawable/button2" />
+            android:src="@drawable/xieyangyi" />
+
+        <ImageView
+            android:id="@+id/iv_oximetry"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_weight="1"
+            android:src="@drawable/tiwenji" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bj_50dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:visibility="visible"
+            android:id="@+id/iv_bloodpressur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/xieyayi" />
 
         <ImageView
             android:visibility="invisible"
@@ -119,7 +145,31 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/bj_50dp"
             android:layout_weight="1"
-            android:src="@drawable/jianyan" />
+            android:src="@drawable/yongyao" />
+
+        <ImageView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_weight="1"
+            android:src="@drawable/button5" />
+
+        <ImageView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
 

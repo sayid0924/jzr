@@ -9,7 +9,6 @@
     <!--<string name="server_port">1111</string>-->
 
 
-
     <string name="socket_port">8111</string>
     <string name="socket_ip">192.168.0.111</string>
     <string name="look_ip">192.168.57.99</string>
@@ -20,7 +19,7 @@
 
     <string name="bedside">床旁交互系统</string>
     <string name="system">系统</string>
-    
+
     <string name="doc">深圳市萨米医疗中心位于深圳市坪山区金牛西路1号，占地6.8万平方米。一期建筑面积为13.7万平方米，一期计划开放病床600张。是深圳市直属的非营利性公立医院，预计于2017年12月31日前开业。
 
 2016年5月，在深圳市政府的大力推动下，深圳市公立医院管理中心和德国汉诺威国际医学创新公司在深签署协议，由世界神经外科联合会终身荣誉主席萨米教授及其团队和中方一起合作建设、运营我院。
@@ -29,6 +28,14 @@
 
 我院实行去编制化全员聘用的员额制，薪酬制度为年薪制。
     </string>
+
+
+    <!-- device -->
+    <string name="string_device_ecg">MEDXING-ECG</string><!--心电 -->
+    <string name="string_device_spo2">MEDXING-SpO2</string><!-- 血氧 -->
+    <string name="string_device_irt">MEDXING-IRT</string><!-- 体温计 -->
+    <string name="string_device_bgm">MEDXING-BGM</string><!-- 血糖 -->
+    <string name="string_device_nibp">MEDXING-NIBP</string><!-- 血压 -->
 
 
 </resources>

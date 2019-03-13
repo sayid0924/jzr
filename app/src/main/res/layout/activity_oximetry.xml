@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.GaugeTempActivity">
+
+    <include
+        android:id="@+id/rootbar"
+        layout="@layout/actionbar_root_layout" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_3dp"
+        android:layout_below="@id/rootbar"
+        android:background="#14AB8C" />
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_70dp"
+        android:layout_below="@+id/view_line"
+        android:background="#FF7C41">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="@dimen/bj_120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/hospital_00" />
+
+        <TextView
+            android:id="@+id/tv_ex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/bj_20dp"
+            android:layout_toRightOf="@+id/iv_logo"
+            android:gravity="center|left"
+            android:text="红外体温计"
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_serach_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/bj_20dp"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:padding="@dimen/bj_10dp"
+            android:text="正在扫描设备"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wz_25sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_pd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/pb"
+                android:layout_width="@dimen/bj_60dp"
+                android:layout_height="@dimen/bj_60dp"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_device"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_device"
+        android:layout_marginTop="@dimen/bj_35dp"
+        android:orientation="vertical">
+
+        <com.jzr.bedside.view.DialProgress
+            android:id="@+id/circle_progress_bar"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            app:animTime="1000"
+            app:arcColors="@array/gradient_arc_color"
+            app:arcWidth="20dp"
+            app:dialIntervalDegree="3"
+            app:dialWidth="2dp"
+            app:hint="当前体温"
+            app:hintSize="25sp"
+            app:maxValue="100"
+            app:startAngle="135"
+            app:sweepAngle="270"
+            app:unit="℃"
+            app:unitSize="25sp"
+            app:value="0"
+            app:precision="1"
+            app:valueSize="35sp" />
+
+        <Button
+            android:id="@+id/but_start"
+            android:layout_width="@dimen/bj_180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:text="开始测量"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wz_25sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

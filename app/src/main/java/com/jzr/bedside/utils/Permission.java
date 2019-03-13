@@ -33,7 +33,11 @@ public class Permission {
             "android.permission.CALL_PHONE",
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE"};
+            "android.permission.READ_EXTERNAL_STORAGE",
+             "android.permission.BLUETOOTH",
+             "android.permission.BLUETOOTH_ADMIN",
+              "android.permission.ACCESS_FINE_LOCATION",
+              "android.permission.ACCESS_COARSE_LOCATION"};
     final public static int REQUEST_CODE_ASK_CALL_PHONE = 123;
     public static List<String> ss = new ArrayList<>();//未授权的权限
 

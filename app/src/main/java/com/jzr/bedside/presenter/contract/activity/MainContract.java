@@ -17,6 +17,8 @@ public interface MainContract {
         void  bedcardGetbedinfoSuccess(BedInfoBean data);
         void  bedcardGetbedinfoFail( );
 
+        void  downAppSuccess();
+
     }
 
     interface Presenter<T> extends BaseContract.BasePresenter<T> {
@@ -29,5 +31,6 @@ public interface MainContract {
         // 根据设备编号获取床位及病人信息// 根据设备编号获取床位及病人信息
         void  bedcardGetbedinfo(boolean tag,String ...s);
 
+        void  downApp(String ...s);
     }
 }
