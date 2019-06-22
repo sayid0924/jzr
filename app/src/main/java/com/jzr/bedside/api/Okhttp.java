@@ -192,6 +192,7 @@ class Okhttp {
                     .host(baseURL.host())
                     .port(baseURL.port())
                     .build();
+
             //获取处理后的新newRequest
             Request newRequest = builder.url(newHttpUrl).build();
             return  chain.proceed(newRequest);

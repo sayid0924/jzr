@@ -34,6 +34,67 @@ public final class PreferUtil {
     private static final String DEVICE_NAME = "device_name";
     private static final String QUEUE_NAME = "queue_name";
     private static final String LOOK_IP = "look_ip";
+    private static final String DEPTCODE = "deptCode";
+    private static final String DEPTNAME = "deptName";
+    private static final String ROOMCODE = "roomCode";
+    private static final String ROOMNAME = "roomName";
+    private static final String BEDCODE = "bedCode";
+    private static final String BEDNAME = "bedName";
+
+
+    public  void  setRoomName(String fag){
+        putString(ROOMNAME, fag);
+    }
+
+    public  String getRoomName(){
+        return getString(ROOMNAME,"");
+    }
+
+    public  void  setDeptName(String fag){
+        putString(DEPTNAME, fag);
+    }
+
+    public  String getDeptName(){
+        return getString(DEPTNAME,"");
+    }
+
+
+    public  void  setBedName(String fag){
+        putString(BEDNAME, fag);
+    }
+
+    public  String getBedName(){
+        return getString(BEDNAME,"");
+    }
+
+
+
+    public  void  setBedcode(String fag){
+        putString(BEDCODE, fag);
+    }
+
+    public  String getBedcode(){
+        return getString(BEDCODE,"");
+    }
+
+    public  void  setRoomCode(String fag){
+        putString(ROOMCODE, fag);
+    }
+
+    public  String getRoomcode(){
+        return getString(ROOMCODE,"");
+    }
+
+
+
+    public  void  setDeptCode(String fag){
+        putString(DEPTCODE, fag);
+    }
+
+    public  String getDeptCode(){
+        return getString(DEPTCODE,"");
+    }
+
 
     public void setBaseUrl(String fag) {
         putString(BASE_URL, fag);
@@ -59,7 +120,6 @@ public final class PreferUtil {
         return getString(SOCKET_PORT, context.getResources().getString(R.string.socket_port));
     }
 
-
     public void setLookIp(String fag) {
         putString(LOOK_IP, fag);
     }
@@ -67,7 +127,6 @@ public final class PreferUtil {
     public String getLookIp() {
         return getString(LOOK_IP, context.getResources().getString(R.string.look_ip));
     }
-
 
     public void setSocketIp(String fag) {
         putString(SOCKET_IP, fag);
@@ -77,7 +136,6 @@ public final class PreferUtil {
         return getString(SOCKET_IP, context.getResources().getString(R.string.socket_ip));
     }
 
-
     public void setRabbitmqIp(String fag) {
         putString(RABBITMQ_IP, fag);
     }
@@ -86,7 +144,6 @@ public final class PreferUtil {
         return getString(RABBITMQ_IP, context.getResources().getString(R.string.rabbit_ip) );
     }
 
-
     public void setRabbitmqPort(String fag) {
         putString(RABBITMQ_PORT, fag);
     }
@@ -94,7 +151,6 @@ public final class PreferUtil {
     public String getRabbitmqPort() {
         return getString(RABBITMQ_PORT, context.getResources().getString(R.string.rabbit_port) );
     }
-
 
     public void setQueueName(String fag) {
         putString(QUEUE_NAME, fag);
@@ -128,13 +184,10 @@ public final class PreferUtil {
         return getString(LOCATION_INFO, "");
     }
 
-
-
     private PreferUtil() {
     }
 
     public static PreferUtil getInstance() {
-
         if (INSTANCE == null) {
             context = BaseApplication.getContext();
             return   new PreferUtil();
@@ -147,7 +200,6 @@ public final class PreferUtil {
                 | Context.MODE_PRIVATE);
         mPrefer.edit().commit();
     }
-
 
     public String getString(String key, String defValue) {
         return mPrefer.getString(key, defValue);
@@ -164,9 +216,6 @@ public final class PreferUtil {
     public void putString(String key, String value) {
         mPrefer.edit().putString(key, value).commit();
     }
-
-
-
 
     public void putInt(String key, int value) {
         mPrefer.edit().putInt(key, value).commit();

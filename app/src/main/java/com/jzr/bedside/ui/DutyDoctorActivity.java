@@ -18,7 +18,7 @@ import butterknife.OnClick;
 
 public class DutyDoctorActivity extends BaseActivity implements DutyDoctorContract.View {
 
-    DutyDoctorActivityPresenter mPresenter = new DutyDoctorActivityPresenter(this);
+    DutyDoctorActivityPresenter mPresenter = new DutyDoctorActivityPresenter();
 
     @BindView(R.id.iv_back)
     ImageView ivBack;

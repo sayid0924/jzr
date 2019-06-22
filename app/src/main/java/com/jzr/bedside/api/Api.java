@@ -20,14 +20,18 @@ import com.jzr.bedside.base.Constant;
 import com.jzr.bedside.base.ExpenseDetailBean;
 import com.jzr.bedside.base.PayInfoBean;
 import com.jzr.bedside.bean.BedInfoBean;
+import com.jzr.bedside.bean.CheckDeptBean;
+import com.jzr.bedside.bean.DeviceBean;
 import com.jzr.bedside.bean.DoctorBean;
 import com.jzr.bedside.bean.DoctorByConditionBean;
+import com.jzr.bedside.bean.FoodMenuBean;
 import com.jzr.bedside.bean.HospitalBean;
 import com.jzr.bedside.bean.MedicationRecordBean;
 import com.jzr.bedside.bean.NurseInfoBean;
 import com.jzr.bedside.bean.TQuestionBean;
 import com.jzr.bedside.bean.VideoBean;
 import com.google.gson.Gson;
+import com.jzr.bedside.bean.boby.DeviceBoby;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +41,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 public class Api {
@@ -77,6 +83,11 @@ public class Api {
     // 测试连接
     public Observable<ResponseBody> TestLink(String... s) {
         return service.TestLink(getMap(s));
+    }
+
+    // 下载app
+    public Observable<ResponseBody> downApp(String s) {
+        return service.downApp(s);
     }
 
     // 获取本对应位置
@@ -138,5 +149,34 @@ public class Api {
     public Observable<ExpenseDetailBean> getThisAndDetailAllByCondition(String... s) {
         return service.getThisAndDetailAllByCondition(getMap(s));
     }
+
+    // 绑定床头卡
+    public Observable<DeviceBean> getBedcardBindtobed(DeviceBoby deviceBoby) {
+        return service.getBedcardBindtobed(deviceBoby);
+    }
+
+    // 获取科室列表
+    public Observable<CheckDeptBean> getDeptCodelist(String... s) {
+        return service.getDeptCodelist(getMap(s));
+    }
+
+    // 获取科室房间列表
+    public Observable<CheckDeptBean> getDeptRoomList(String... s) {
+        return service.getDeptRoomList(getMap(s));
+    }
+
+    // 获取科室房间床位列表
+    public Observable<CheckDeptBean> getDeptBedList(String... s) {
+        return service.getDeptBedList(getMap(s));
+    }
+
+
+
+    // 获取食堂菜单列表
+    public Observable<FoodMenuBean> getFoodMenuSelectAll(String... s) {
+        return service.getFoodMenuSelectAll(getMap(s));
+    }
+
+
 
 }

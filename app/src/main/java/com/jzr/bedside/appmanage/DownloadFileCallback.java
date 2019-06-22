@@ -62,11 +62,9 @@ public class DownloadFileCallback implements Callback {
                     int progress = (int) (sum * 1.0f / total * 100);
                     // 下载中更新进度条
                     mDownloadFileListener.onDownloading(progress);
-                    Log.e("TAG", String.valueOf(progress));
                 }
                 fos.flush();
                 // 下载完成
-                Log.e("TAG","下载完成");
                 mDownloadFileListener.onDownloadSuccess(file);
             } catch (Exception e) {
                 LogUtil.e(TAG, e.getMessage(), e);

@@ -7,7 +7,10 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,14 +21,17 @@ import android.widget.TextView;
 import com.jzr.bedside.R;
 import com.jzr.bedside.base.BaseActivity;
 import com.jzr.bedside.base.BaseApplication;
-import com.jzr.bedside.bean.BedInfoBean;
+import com.jzr.bedside.bean.CheckDeptBean;
+import com.jzr.bedside.bean.DeviceBean;
 import com.jzr.bedside.bean.SettingEvenBus;
+import com.jzr.bedside.bean.boby.DeviceBoby;
 import com.jzr.bedside.broadcastReceiver.NetworkConnectChangedReceiver;
 import com.jzr.bedside.broadcastReceiver.NetworkLinten;
 import com.jzr.bedside.db.database.BedInfoBeanDbDao;
-import com.jzr.bedside.db.entity.BedInfoBeanDb;
 import com.jzr.bedside.presenter.contract.activity.SettingActivityContract;
 import com.jzr.bedside.presenter.impl.activity.SettingActivityPresenter;
+import com.jzr.bedside.service.nettyUtils.NettySenMsgListener;
+import com.jzr.bedside.ui.apadter.CheckDeptApadter;
 import com.jzr.bedside.utils.AreaClickListener;
 import com.jzr.bedside.utils.CommonUtil;
 import com.jzr.bedside.utils.FloatWindowUtils;
@@ -37,15 +43,10 @@ import com.jzr.bedside.service.nettyUtils.NettyService;
 import com.blankj.utilcode.utils.AppUtils;
 import com.blankj.utilcode.utils.DeviceUtils;
 import com.blankj.utilcode.utils.NetworkUtils;
-import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.jzr.bedside.view.dialog.CustomDialog;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -82,7 +83,6 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
     @BindView(R.id.switch_wifi)
     Switch switchWifi;
 
-
     @BindView(R.id.switch_logcat)
     Switch switchLogcat;
 
@@ -98,6 +98,8 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
     TextView tvVersionInfo;
     @BindView(R.id.tv_mac_info)
     TextView tvMacInfo;
+    @BindView(R.id.tv_check_dept)
+    TextView tvCheckDept;
     @BindView(R.id.ed_service_ip)
     EditText edServiceIp;
     @BindView(R.id.ed_service_port)
@@ -108,15 +110,19 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
     EditText edSocketIp;
     @BindView(R.id.ed_look_ip)
     EditText edLookIp;
+    @BindView(R.id.tv_binding_bedno)
+    TextView tvBindingBedno;
+    @BindView(R.id.bt_check_dept)
+    Button btCheckDept;
 
     @BindView(R.id.iv_socket_ip)
     ImageView ivSocketIp;
 
     private WifiManager mWifiManager;
-    private SettingActivityPresenter mPresenter = new SettingActivityPresenter(this);
+    private SettingActivityPresenter mPresenter = new SettingActivityPresenter();
     private NetworkConnectChangedReceiver networkConnectChangedReceiver;
-    private BedInfoBean data;
-    private InputStream is;
+    private CheckDeptApadter apadter;
+    private CustomDialog dialogDeptList;
 
     @Override
     public int getLayoutId() {
@@ -138,7 +144,7 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
 
         collectionInfoDao = GreenDaoUtil.getDaoSession().getBedInfoBeanDbDao();
         mWifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        actionbarTitle.setText("系统设置");
+        actionbarTitle.setText(R.string.system_setting);
         tvSnInfo.setText(Build.SERIAL);
         tvIpInfo.setText(CommonUtil.getIP());
         tvMacInfo.setText(DeviceUtils.getMacAddress());
@@ -150,6 +156,11 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
         edSocketIp.setText(PreferUtil.getInstance().getSoketIp());
         edLookIp.setText(PreferUtil.getInstance().getLookIp());
         switchLogcat.setChecked(FloatWindowUtils.isShow);
+
+
+        tvBindingBedno.setText( PreferUtil.getInstance().getDeptName() + " - "+ PreferUtil.getInstance().getRoomName()+ " - "+
+                PreferUtil.getInstance().getBedName());
+
         rlInfo.setOnClickListener(new AreaClickListener(5, 500, new AreaClickListener.ClickEvent() {
             @Override
             public void onEvent() {
@@ -165,9 +176,8 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
             ivSocketPort.setBackgroundResource(R.drawable.test_result_fail);
         }
 
-        mPresenter.connectTest("code", Build.SERIAL);
-
-        mPresenter.bedcardGetbedinfo("code", Build.SERIAL);
+        mPresenter.connectTest("deviceNo", Build.SERIAL);
+        showWaitingDialog(getString(R.string.connect_test));
 
         if (NetworkUtils.isWifiConnected()) {
             switchWifi.setChecked(true);
@@ -197,10 +207,10 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
         switchLogcat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     FloatWindowUtils.getInstance().show();
-                }else {
-                   FloatWindowUtils.getInstance().destroy();
+                } else {
+                    FloatWindowUtils.getInstance().destroy();
                 }
             }
         });
@@ -217,9 +227,6 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
 
     }
 
-
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -227,6 +234,7 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
         PreferUtil.getInstance().setIsFirst(true);
         EventBus.getDefault().post(new SettingEvenBus());
         unregisterReceiver(networkConnectChangedReceiver);
+
     }
 
     /**
@@ -234,7 +242,7 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
      */
     @Override
     public void ConnectedSuccess() {
-        mPresenter.connectTest("code", Build.SERIAL);
+        mPresenter.connectTest("deviceNo", Build.SERIAL);
         ivWifiLevel.setVisibility(View.VISIBLE);
         tvWifiInfo.setText(CommonUtil.getWifiInfo(this));
         tvIpInfo.setText(CommonUtil.getIP());
@@ -256,12 +264,14 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
      */
     @Override
     public void ConnectedFail() {
+        hideWaitingDialog();
         ivServicePort.setBackgroundResource(R.drawable.test_result_fail);
         ivWifiLevel.setVisibility(View.GONE);
         tvWifiInfo.setText("");
     }
 
-    @OnClick({R.id.iv_right, R.id.tv_connecttest, R.id.tv_socket_connecttest})
+    @OnClick({R.id.iv_right, R.id.tv_connecttest, R.id.tv_socket_connecttest,
+            R.id.tv_check_dept, R.id.bt_check_dept, R.id.tv_binding_bedno})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_right:
@@ -275,32 +285,72 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
 
                 finish();
                 break;
+
+            case R.id.tv_binding_bedno:
+                mPresenter.getDeptCodelist();
+//                mPresenter.getBedcardBindtobed();
+//                showWaitingDialog(getString(R.string.loading));
+                break;
+            case R.id.tv_check_dept:
+                //  选择科室列表
+                mPresenter.getDeptCodelist();
+                showWaitingDialog(getString(R.string.loading));
+                break;
+            case R.id.bt_check_dept:
+                //  绑定科室
+                String checkDept = tvCheckDept.getText().toString();
+                if (checkDept.equals("")) {
+                    ToastUtils.showLongToast(R.string.check_dept);
+                    break;
+                }
+                showWaitingDialog(getString(R.string.binding));
+                NettyService.setNettySenMsgListener(new NettySenMsgListener() {
+                    @Override
+                    public void senMegSuccess() {
+                        hideWaitingDialog();
+                        ToastUtils.showLongToast(R.string.binding_sucess);
+                    }
+
+                    @Override
+                    public void senMegFail() {
+                        hideWaitingDialog();
+                        ToastUtils.showLongToast(R.string.binding_fail);
+                    }
+                });
+
+                NettyService.authenticData();
+
+                break;
             case R.id.tv_connecttest:
                 // 网络连接测试
                 PreferUtil.getInstance().setBaseUrl(edServiceIp.getText().toString());
                 PreferUtil.getInstance().setServerPort(edServicePort.getText().toString());
-                mPresenter.connectTest("code", Build.SERIAL);
-
+                mPresenter.connectTest("deviceNo", Build.SERIAL);
+                showWaitingDialog(getString(R.string.connect_test));
                 break;
             case R.id.tv_socket_connecttest:
                 // socket连接测试
-                showWaitingDialog("Socket连接....");
+                showWaitingDialog(getString(R.string.socker_connecting));
                 PreferUtil.getInstance().setSocketPort(edSocketPort.getText().toString());
                 PreferUtil.getInstance().setSocketIp(edSocketIp.getText().toString());
                 NettyService.connect();
-                BaseApplication.MAIN_EXECUTOR.schedule(new Runnable() {
+                NettyService.authenticData();
+
+                NettyService.setNettySenMsgListener(new NettySenMsgListener() {
                     @Override
-                    public void run() {
+                    public void senMegSuccess() {
                         hideWaitingDialog();
-                        if (NettyClient.getInstance().getConnectStatus()) {
-                            ivSocketPort.setBackgroundResource(R.drawable.test_result_sucess);
-                            ToastUtils.showLongToast("Socket连接测试成功");
-                        } else {
-                            ToastUtils.showLongToast("Socket连接测试失败");
-                            ivSocketPort.setBackgroundResource(R.drawable.test_result_fail);
-                        }
+                        ivSocketPort.setBackgroundResource(R.drawable.test_result_sucess);
+                        ToastUtils.showLongToast(R.string.socker_connect_sucess);
                     }
-                }, 10, TimeUnit.SECONDS);
+
+                    @Override
+                    public void senMegFail() {
+                        hideWaitingDialog();
+                        ToastUtils.showLongToast(R.string.socker_connect_fail);
+                        ivSocketPort.setBackgroundResource(R.drawable.test_result_fail);
+                    }
+                });
 
                 break;
         }
@@ -316,54 +366,107 @@ public class SettingActivity extends BaseActivity implements SettingActivityCont
         return ivServicePort;
     }
 
+
     @Override
-    public void bedcardGetbedinfoSuccess(BedInfoBean data) {
-
-        BedInfoBeanDb b = collectionInfoDao.queryBuilder().where(
-                BedInfoBeanDbDao.Properties.Id.eq(0)).unique();
-        BedInfoBeanDb bedInfoBeanDb = new BedInfoBeanDb();
-        if (b != null) {
-            bedInfoBeanDb.setId(b.getId());
-            bedInfoBeanDb.setBedInfoBean(data);
-            collectionInfoDao.update(bedInfoBeanDb);
-        } else {
-            bedInfoBeanDb.setId(Long.valueOf(0));
-            bedInfoBeanDb.setBedInfoBean(data);
-            collectionInfoDao.insert(bedInfoBeanDb);
-        }
-        initData();
-    }
-
-    private void initData() {
-
-        BedInfoBeanDb infoBeanDb = collectionInfoDao.queryBuilder().where(
-                BedInfoBeanDbDao.Properties.Id.eq(0)).unique();
-        if (infoBeanDb != null) {
-            data = infoBeanDb.getBedInfoBean();
-
-            String title = data.getData().getTwardVo().getName() + "  " +
-                    data.getData().getTpatientVo().getDeptId() + "  " +
-                    data.getData().getTsickroomVo().getSickroomName();
-
-            tvLocationInfo.setText(title);
-
-        }
+    public void connectTestSuccess(CheckDeptBean data) {
+        hideWaitingDialog();
+        ToastUtils.showLongToast(R.string.connect_sucess);
+//        Date nowTime = TimeUtils.string2Date(data.getTimestamp());
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(nowTime);
+//        CommonUtil.setAutoDateTime(0, this);
+//        CommonUtil.setSysDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+//                calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY),
+//                calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), this);
     }
 
     @Override
-    public void connectTestSuccess(BedInfoBean data) {
-        Date nowTime = TimeUtils.string2Date(TimeUtils.millis2String(data.getTimestamp().getEpochSecond() * 1000L));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(nowTime);
-        CommonUtil.setAutoDateTime(0, this);
-        CommonUtil.setSysDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), this);
+    public void getBedcardBindtobedSuccess(DeviceBean data) {
+        hideWaitingDialog();
+        ToastUtils.showLongToast(data.getMessage());
+         tvBindingBedno.setText( PreferUtil.getInstance().getDeptName() + " - "+ PreferUtil.getInstance().getRoomName()+ " - "+
+                 PreferUtil.getInstance().getBedName());
+         if (dialogDeptList!=null && dialogDeptList.isShowing())dialogDeptList.dismiss();
+    }
+
+    @Override
+    public void getDeptCodelistSuccess(CheckDeptBean checkDeptBean) {
+        hideWaitingDialog();
+        showDeptListDialog(checkDeptBean);
+    }
+
+    @Override
+    public void getDeptRoomListSuccess(CheckDeptBean checkDeptBean) {
+        hideWaitingDialog();
+        apadter.setNewData(checkDeptBean.getData());
+        apadter.notifyDataSetChanged();
+
+        apadter.onItemClick(new CheckDeptApadter.onItemClick() {
+            @Override
+            public void onItemClick(CheckDeptBean.DataBean c) {
+                PreferUtil.getInstance().setRoomCode(c.getCode());
+                PreferUtil.getInstance().setRoomName(c.getName());
+                mPresenter.getDeptBealist("deptCode", PreferUtil.getInstance().getDeptCode(),
+                        "roomCode", c.getCode());
+                showWaitingDialog(getString(R.string.loading));
+            }
+        });
+
+    }
+
+    @Override
+    public void getDeptBedListSuccess(CheckDeptBean checkDeptBean) {
+        hideWaitingDialog();
+        apadter.setNewData(checkDeptBean.getData());
+        apadter.notifyDataSetChanged();
+        apadter.onItemClick(new CheckDeptApadter.onItemClick() {
+            @Override
+            public void onItemClick(CheckDeptBean.DataBean c) {
+
+                DeviceBoby deviceBoby = new DeviceBoby();
+                deviceBoby.setDeviceMac(DeviceUtils.getMacAddress());
+                deviceBoby.setAppVersion(AppUtils.getAppVersionName(SettingActivity.this));
+                deviceBoby.setDeviceIp(CommonUtil.getIP());
+                deviceBoby.setDeviceNo(Build.SERIAL);
+                deviceBoby.setDeviceType(0);
+                deviceBoby.setRegisterBed(String.valueOf(c.getId()));
+                deviceBoby.setNurseboardIp(edLookIp.getText().toString().trim());
+                mPresenter.getBedcardBindtobed(deviceBoby);
+                PreferUtil.getInstance().setBedcode(String.valueOf(c.getId()));
+                PreferUtil.getInstance().setBedName(c.getName());
+                showWaitingDialog(getString(R.string.binding));
+
+            }
+        });
     }
 
     @Override
     public void showError(String message) {
-
+        hideWaitingDialog();
+        ToastUtils.showLongToast(message);
     }
 
+
+    public void showDeptListDialog(CheckDeptBean checkDeptBean) {
+        hideWaitingDialog();
+
+        View view = View.inflate(BaseApplication.getContext(), R.layout.dialog_dept_list, null);
+        RecyclerView rvDeptList = view.findViewById(R.id.rv_dept_list);
+
+        apadter = new CheckDeptApadter(checkDeptBean.getData(), this);
+        rvDeptList.setLayoutManager(new LinearLayoutManager(this));
+        rvDeptList.setAdapter(apadter);
+         dialogDeptList = new CustomDialog(this, view, R.style.MyDialog);
+        dialogDeptList.setCancelable(true);
+        dialogDeptList.show();
+        apadter.onItemClick(new CheckDeptApadter.onItemClick() {
+            @Override
+            public void onItemClick(CheckDeptBean.DataBean item) {
+                PreferUtil.getInstance().setDeptCode(item.getCode());
+                PreferUtil.getInstance().setDeptName(item.getName());
+                mPresenter.getDeptRoomlist("deptCode", item.getCode());
+                showWaitingDialog(getString(R.string.loading));
+            }
+        });
+    }
 }

@@ -8,11 +8,6 @@ public class BasePresenter<T extends BaseContract.BaseView> implements BaseContr
 
     protected T mView;
     protected CompositeSubscription mCompositeSubscription;
-    public BaseActivity mContext;
-
-    public BasePresenter(BaseActivity context) {
-        mContext = context;
-    }
 
     protected void unSubscribe() {
         if (mCompositeSubscription != null) {

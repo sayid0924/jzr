@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -17,16 +20,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.AppUtils;
+import com.blankj.utilcode.utils.DeviceUtils;
 import com.blankj.utilcode.utils.FileUtils;
+import com.blankj.utilcode.utils.ThreadPoolUtils;
+import com.blankj.utilcode.utils.ToastUtils;
 import com.blankj.utilcode.utils.Utils;
 import com.jzr.bedside.R;
 import com.jzr.bedside.base.BaseActivity;
+import com.jzr.bedside.base.BaseApplication;
+import com.jzr.bedside.base.Constant;
 import com.jzr.bedside.bean.BedInfoBean;
 import com.jzr.bedside.bean.SettingEvenBus;
 import com.jzr.bedside.db.database.BedInfoBeanDbDao;
 import com.jzr.bedside.db.entity.BedInfoBeanDb;
 import com.jzr.bedside.presenter.contract.activity.MainContract;
 import com.jzr.bedside.presenter.impl.activity.MainActivityPresenter;
+import com.jzr.bedside.service.KeepLiveService;
 import com.jzr.bedside.ui.apadter.DoctorAdviceApadter;
 import com.jzr.bedside.utils.AreaClickListener;
 import com.jzr.bedside.utils.CommonUtil;
@@ -37,9 +46,20 @@ import com.jzr.bedside.utils.QRCodeUtil;
 import com.jzr.bedside.service.nettyUtils.NettyService;
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.TimeUtils;
+import com.jzr.bedside.utils.listener.DemoBeautyCallback;
+import com.jzr.bedside.utils.listener.XHChatManagerListener;
+import com.jzr.bedside.utils.listener.XHGroupManagerListener;
+import com.jzr.bedside.utils.listener.XHLoginManagerListener;
+import com.jzr.bedside.utils.listener.XHVoipManagerListener;
+import com.jzr.bedside.utils.listener.XHVoipP2PManagerListener;
 import com.medxing.sdk.resolve.IrtResolve;
 import com.medxing.sdk.resolve.ResolveManager;
 import com.orhanobut.logger.Logger;
+import com.starrtc.starrtcsdk.api.XHClient;
+import com.starrtc.starrtcsdk.api.XHCustomConfig;
+import com.starrtc.starrtcsdk.apiInterface.IXHErrorCallback;
+import com.starrtc.starrtcsdk.apiInterface.IXHResultCallback;
+import com.starrtc.starrtcsdk.core.beauty.XHBeautyManager;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -47,6 +67,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -55,11 +76,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
 
     private DoctorAdviceApadter doctorAdviceApadter;
-    private List<BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean> doctorAdvicesData = new ArrayList<>();
-    MainActivityPresenter mPresenter = new MainActivityPresenter(this);
+    private List<BedInfoBean.DataBean.CareLabelListBean> doctorAdvicesData = new ArrayList<>();
+    private MainActivityPresenter mPresenter = new MainActivityPresenter();
     private BedInfoBeanDbDao collectionInfoDao;
     public BedInfoBean data;
     private String sex, age, Name, BedNum, CureNo, AdmissionTime, DutyDoctor, DutyNurse, positionName;
+
+    private ThreadPoolUtils timeTaskExecutor = new ThreadPoolUtils(ThreadPoolUtils.Type.FixedThread, 3);
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -104,6 +127,21 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     public static MainActivity mainActivity = null;
     private ResolveManager resolveManager;
 
+    @SuppressLint("HandlerLeak")
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    if (actionbarTitle != null) {
+                        actionbarTitle.setText(TimeUtils.getNowTimeString("EEEE yyyy-MM-dd HH:mm:ss"));
+                    }
+                    break;
+            }
+        }
+    };
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
@@ -136,10 +174,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         }));
 
         ivBack.setVisibility(View.VISIBLE);
-        ivBack.setBackgroundResource(R.drawable.logo);
+        ivBack.setBackgroundResource(R.drawable.jzr_logo_n);
         leftTitle.setVisibility(View.VISIBLE);
         ivRight.setVisibility(View.VISIBLE);
-//        leftTitle.setText(PreferUtil.getInstance().getLocationInfo());
+        leftTitle.setText("金之瑞科技有限公司");
 
         doctorAdviceApadter = new DoctorAdviceApadter(doctorAdvicesData, this);
         rvDoctorAdvice.setLayoutManager(new LinearLayoutManager(this));
@@ -150,126 +188,125 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
         startService(new Intent(this, NettyService.class));
 //        startService(new Intent(this, RabbitMQService.class));
+        bedcardGetbedinfo();
 
-//        mPresenter.bedcardGetbedinfo(true, "code", Build.SERIAL);
-//        mPresenter.bedbeabinfo("code", Build.SERIAL);
-        initData();
+        timeTaskExecutor.scheduleWithFixedDelay(TimeTask(), 0, 1, TimeUnit.SECONDS);
+
         mainActivity = this;
 
+        startService();
 
-//        FileUtils.createOrExistsFile(Utils.getContext().getExternalCacheDir()+"app");
-
-
-//        resolveManager = ResolveManager.getInstance(this);
-//        resolveManager.setOnIrtResolveListener(new ResolveManager.OnIrtResolveListener() {
-//            @Override
-//            public void onIrtResolve(IrtResolve irtResolve) {
-//                Logger.e("==================================================");
-//                Logger.e(irtResolve.toString());
-//
-//            }
-//        });
-//        createFile("app");
-      boolean d =  AppUtils.installAppSilent(Environment.getExternalStorageDirectory() + "/" +"app"+"/"+"app-release.apk");
-      Logger.e(String.valueOf(d));
     }
 
+    private void startService(){
+        Intent intent = new Intent(this, KeepLiveService.class);
+        startService(intent);
+    }
 
-    public void createFile(String fileName) {
-        File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
-        if (fileName.indexOf(".") != -1) {
-            // 说明包含，即使创建文件, 返回值为-1就说明不包含.,即使文件
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+    public Runnable TimeTask() {
+        return new Runnable() {
+            @Override
+            public void run() {
+                Message message = mHandler.obtainMessage();
+                message.what = 1;
+                mHandler.sendMessage(message);
             }
-            Logger.e("App");
-        } else {
-            // 创建文件夹
-            file.mkdir();
-        }
+        };
     }
-
 
     public void bedcardGetbedinfo() {
-        mPresenter.bedcardGetbedinfo(false, "code", Build.SERIAL);
+        mPresenter.bedcardGetbedinfo("deviceNo", Build.SERIAL);
+        showWaitingDialog(getString(R.string.loading));
     }
 
-//    @SuppressLint("SetTextI18n")
-//    private void initData() {
-//
-//        BedInfoBeanDb infoBeanDb = collectionInfoDao.queryBuilder().where(
-//                BedInfoBeanDbDao.Properties.Id.eq(0)).unique();
-//        if (infoBeanDb != null) {
-//            data = infoBeanDb.getBedInfoBean();
-//
-//            if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo())){
-//
+    public void  downApp(String url){
+        mPresenter.downApp(this,url, Constant.path);
+        showWaitingDialog("正在升级中....");
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initData() {
+
+        BedInfoBeanDb infoBeanDb = collectionInfoDao.queryBuilder().where(
+                BedInfoBeanDbDao.Properties.Id.eq(0)).unique();
+        if (infoBeanDb != null) {
+            data = infoBeanDb.getBedInfoBean();
+            if (EmptyUtils.isNotEmpty(data.getData())) {
 //                if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getDeptId())){
 //                     String title = data.getData().getTpatientVo().getDeptId();
 //                     leftTitle.setText(title);
 //                 }
-//                // 姓名
-//                if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getName())){
-//                    Name = data.getData().getTpatientVo().getName();
-//                    tvName.setText(Name);
-//                }
-//                // 性别
-//                if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getSex())){
-//
-//                    if (data.getData().getTpatientVo().getSex() == 0) {
-//                        sex = "男性";
-//                    } else if (data.getData().getTpatientVo().getSex() == 1) {
-//                        sex = "女性";
-//                    } else {
-//                        sex = "未知";
-//                    }
-//                    tvSex.setText(sex);
-//                }
-//                // 住院号
-//                if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getCureNo())){
-//                    CureNo = data.getData().getTpatientVo().getCureNo();
-//                    tvCureNo.setText(CureNo);
-//                }
-//                // 年龄
-//               if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getBirthday())){
+                // 姓名
+                if (EmptyUtils.isNotEmpty(data.getData().getName())) {
+                    Name = data.getData().getName();
+                   String dd = CommonUtil.replaceString2Star(Name,1,1);
+                    tvName.setText(dd);
+                }
+                // 性别
+                if (EmptyUtils.isNotEmpty(data.getData().getSex())) {
+                    if (data.getData().getSex() == 0) {
+                        sex = "男性";
+                    } else if (data.getData().getSex() == 1) {
+                        sex = "女性";
+                    } else {
+                        sex = "未知";
+                    }
+                    tvSex.setText(data.getData().getSexText());
+                }
+                // 住院号
+                if (EmptyUtils.isNotEmpty(data.getData().getCureNo())) {
+                    CureNo = data.getData().getCureNo();
+                    tvCureNo.setText(CureNo);
+                }
+                // 年龄
+                if (EmptyUtils.isNotEmpty(data.getData().getAge())) {
 //                    age = String.valueOf(CommonUtil.getAgeByBirth(TimeUtils.string2Date(TimeUtils.millis2String(TimeUtils.string2Millis(data.getData().getTpatientVo().getBirthday(), "yyyy-MM-dd"))),
 //                           TimeUtils.string2Date(TimeUtils.millis2String(data.getTimestamp().getEpochSecond() * 1000L)))) + "岁";
-////                   age = data.getData().getTpatientVo().getBirthday();
-//                   tvAge.setText(age);
-//               }
-//                //入院时间
-//                if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getAdmissionTime())){
-//                    AdmissionTime= data.getData().getTpatientVo().getAdmissionTime();
-//                    tvAdmissionTime.setText(AdmissionTime);
-//                }
-//                // 医嘱
-//                if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTcareLableVoList())){
-//                    doctorAdviceApadter.setNewData(data.getData().getTpatientVo().getTcareLableVoList());
-//                }
-//            }
-//
-//            // 主治护士
-//            if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTnurseBrieflyVoList())){
-//                if(EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTnurseBrieflyVoList().get(0).getName())){
-//                    DutyNurse = data.getData().getTpatientVo().getTnurseBrieflyVoList().get(0).getName();
-//                    tvDutyNurse.setText(DutyNurse);
-//                }
-//            }
-//
-//            // 主治医生
-//            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTdoctorBrieflyVoList())) {
-//                if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTdoctorBrieflyVoList().get(0).getDoctorName()))
-//                DutyDoctor = data.getData().getTpatientVo().getTdoctorBrieflyVoList().get(0).getDoctorName();
-//                tvDutydoctor.setText(DutyDoctor);
-//            }
-//            // 床号
-//            if(EmptyUtils.isNotEmpty(data.getData().getBedNum())){
-//                BedNum = data.getData().getBedNum();
-//                tvBednum.setText(BedNum);
-//            }
-//            // 科室信息
+                    age = data.getData().getAge() ;
+                    tvAge.setText(age);
+                }
+                //入院时间
+                if (EmptyUtils.isNotEmpty(data.getData().getInTime())) {
+                    AdmissionTime = data.getData().getInTime();
+                    tvAdmissionTime.setText(AdmissionTime);
+                }
+                // 医嘱
+                if (EmptyUtils.isNotEmpty(data.getData().getCareLabelList())) {
+                    doctorAdviceApadter.setNewData(data.getData().getCareLabelList());
+                    doctorAdviceApadter.notifyDataSetChanged();
+                }
+                // 主治护士
+                if (EmptyUtils.isNotEmpty(data.getData().getNurseName())) {
+                    if (EmptyUtils.isNotEmpty(data.getData().getNurseName())) {
+                        DutyNurse = data.getData().getNurseName();
+                        tvDutyNurse.setText(DutyNurse);
+                    }
+                }
+                // 主治医生
+                if (EmptyUtils.isNotEmpty(data.getData().getDoctorName())) {
+                    if (EmptyUtils.isNotEmpty(data.getData().getDoctorName()))
+                        DutyDoctor = data.getData().getDoctorName();
+                    tvDutydoctor.setText(DutyDoctor);
+                }
+                // 床号
+                if (EmptyUtils.isNotEmpty(data.getData().getBedName())) {
+                    BedNum = data.getData().getBedName();
+                    tvBednum.setText(BedNum);
+                }
+            }else {
+                tvName.setText("");
+                tvSex.setText("");
+                tvCureNo.setText("");
+                tvAge.setText("");
+                tvAdmissionTime.setText("");
+                doctorAdviceApadter.setNewData(null);
+                doctorAdviceApadter.notifyDataSetChanged();
+                tvDutyNurse.setText("");
+                tvDutydoctor.setText("");
+                tvBednum.setText("");
+            }
+
+            // 科室信息
 //            positionName = "";
 //            if(EmptyUtils.isNotEmpty(data.getData().getTwardVo())){
 //                if(EmptyUtils.isNotEmpty(data.getData().getTwardVo().getName())){
@@ -282,178 +319,23 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 //                    positionName = positionName+"  " + data.getData().getTsickroomVo().getSickroomName()+"房";
 //                }
 //            }
-//
 //            leftTitle.setText(positionName);
-//            // 二维码
-//            String contentQR = Name + "   " + sex + "   " + age + "\n" + "床号： " + BedNum + "\n" + "住院号: " + CureNo + "\n" +
-//                    "入院时间: " + AdmissionTime + "\n" + "主治医生: " + DutyDoctor+ "\n" + "责任护士: " +DutyNurse;
-//            Bitmap b = QRCodeUtil.createQRCodeBitmap(contentQR, 300);
-//            ivQrcode.setImageBitmap(b);
-//
-//        }
-//    }
-
-    private BedInfoBean initBeanDb() {
-
-        BedInfoBean bedInfoBean = new BedInfoBean();
-
-        BedInfoBean.DataBean dataBean = new BedInfoBean.DataBean();
-        dataBean.setId(1);
-        dataBean.setBedCardId(10);
-        dataBean.setSickroomId(1);
-        dataBean.setBedType("0");
-        dataBean.setBedNum("10");
-        dataBean.setUseStatus(1);
-        dataBean.setDescription(null);
-
-        BedInfoBean.DataBean.TpatientVoBean tpatientVoBean = new BedInfoBean.DataBean.TpatientVoBean();
-
-        tpatientVoBean.setId(10);
-        tpatientVoBean.setName("陈胜军");
-        tpatientVoBean.setSex(0);
-        tpatientVoBean.setCureNo("CURE-NO-35");
-        tpatientVoBean.setBirthday("54");
-        tpatientVoBean.setAdmissionTime("2019-02-28");
-
-        List<BedInfoBean.DataBean.TpatientVoBean.TdoctorBrieflyVoListBean> voListBeans = new ArrayList<>();
-        voListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TdoctorBrieflyVoListBean(17, "崔洪涛", 0));
-        tpatientVoBean.setTdoctorBrieflyVoList(voListBeans);
-
-        List<BedInfoBean.DataBean.TpatientVoBean.TnurseBrieflyVoListBean> tnurseBrieflyVoList = new ArrayList<>();
-        tnurseBrieflyVoList.add(new BedInfoBean.DataBean.TpatientVoBean.TnurseBrieflyVoListBean(1, "徐丽", 2));
-        tpatientVoBean.setTnurseBrieflyVoList(tnurseBrieflyVoList);
-
-        List<BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean> tcareLableVoListBeans = new ArrayList<>();
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "防跌倒", "#B22222", null, 1, null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "靜脉营养", "#FE5CD5", null, 1, null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "禁饮水", "#FD7B09", null, 1, null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "低钠低脂", "#459187", null, 1, null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "特殊检查", "#0092DF", null, 1, null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "卧床", "#DD127B", null, 1, null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "流质", "#FFC900", null, 1, null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "过敏体质", "#459187", null, 1, null));
-        tcareLableVoListBeans.add(new BedInfoBean.DataBean.TpatientVoBean.TcareLableVoListBean(1, "危重", "#DA251C", null, 1, null));
-
-        tpatientVoBean.setTcareLableVoList(tcareLableVoListBeans);
-        dataBean.setTpatientVo(tpatientVoBean);
-
-        bedInfoBean.setData(dataBean);
-
-
-        return bedInfoBean;
-
-
-    }
-
-
-    // 单机版数据
-    @SuppressLint("SetTextI18n")
-    private void initData() {
-
-        data = initBeanDb();
-
-        if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo())) {
-
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getDeptId())) {
-                String title = data.getData().getTpatientVo().getDeptId();
-                leftTitle.setText(title);
-            }
-            // 姓名
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getName())) {
-                Name = data.getData().getTpatientVo().getName();
-                tvName.setText(Name);
-            }
-            // 性别
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getSex())) {
-
-                if (data.getData().getTpatientVo().getSex() == 0) {
-                    sex = "男性";
-                } else if (data.getData().getTpatientVo().getSex() == 1) {
-                    sex = "女性";
-                } else {
-                    sex = "未知";
-                }
-                tvSex.setText(sex);
-            }
-            // 住院号
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getCureNo())) {
-                CureNo = data.getData().getTpatientVo().getCureNo();
-                tvCureNo.setText(CureNo);
-            }
-            // 年龄
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getBirthday())) {
-//                age = String.valueOf(CommonUtil.getAgeByBirth(TimeUtils.string2Date(TimeUtils.millis2String(TimeUtils.string2Millis(data.getData().getTpatientVo().getBirthday(), "yyyy-MM-dd"))),
-//                        TimeUtils.string2Date(TimeUtils.millis2String(data.getTimestamp().getEpochSecond() * 1000L)))) + "岁";
-                age = data.getData().getTpatientVo().getBirthday() + "岁";
-                tvAge.setText(age);
-            }
-            //入院时间
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getAdmissionTime())) {
-                AdmissionTime = data.getData().getTpatientVo().getAdmissionTime();
-                tvAdmissionTime.setText(AdmissionTime);
-            }
-            // 医嘱
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTcareLableVoList())) {
-                doctorAdviceApadter.setNewData(data.getData().getTpatientVo().getTcareLableVoList());
-            }
+            // 二维码
+            String contentQR = Name + "   " + sex + "   " + age + "\n" + "床号： " + BedNum + "\n" + "住院号: " + CureNo + "\n" +
+                    "入院时间: " + AdmissionTime + "\n" + "主治医生: " + DutyDoctor + "\n" + "责任护士: " + DutyNurse;
+            Bitmap b = QRCodeUtil.createQRCodeBitmap(contentQR, 300);
+            ivQrcode.setImageBitmap(b);
         }
-
-        // 主治护士
-        if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTnurseBrieflyVoList())) {
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTnurseBrieflyVoList().get(0).getName())) {
-                DutyNurse = data.getData().getTpatientVo().getTnurseBrieflyVoList().get(0).getName();
-                tvDutyNurse.setText(DutyNurse);
-            }
-        }
-
-        // 主治医生
-        if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTdoctorBrieflyVoList())) {
-            if (EmptyUtils.isNotEmpty(data.getData().getTpatientVo().getTdoctorBrieflyVoList().get(0).getDoctorName()))
-                DutyDoctor = data.getData().getTpatientVo().getTdoctorBrieflyVoList().get(0).getDoctorName();
-            tvDutydoctor.setText(DutyDoctor);
-        }
-        // 床号
-        if (EmptyUtils.isNotEmpty(data.getData().getBedNum())) {
-            BedNum = data.getData().getBedNum();
-            tvBednum.setText(BedNum);
-        }
-        // 科室信息
-        positionName = "";
-        if (EmptyUtils.isNotEmpty(data.getData().getTwardVo())) {
-            if (EmptyUtils.isNotEmpty(data.getData().getTwardVo().getName())) {
-                positionName = positionName + data.getData().getTwardVo().getName();
-            }
-        }
-        // 房间号
-        if (EmptyUtils.isNotEmpty(data.getData().getTsickroomVo())) {
-            if (EmptyUtils.isNotEmpty(data.getData().getTsickroomVo().getSickroomName())) {
-                positionName = positionName + "  " + data.getData().getTsickroomVo().getSickroomName() + "房";
-            }
-        }
-
-        leftTitle.setText(positionName);
-        // 二维码
-        String contentQR = Name + "   " + sex + "   " + age + "\n" + "床号： " + BedNum + "\n" + "住院号: " + CureNo + "\n" +
-                "入院时间: " + AdmissionTime + "\n" + "主治医生: " + DutyDoctor + "\n" + "责任护士: " + DutyNurse;
-        Bitmap b = QRCodeUtil.createQRCodeBitmap(contentQR, 300);
-        ivQrcode.setImageBitmap(b);
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-    }
-
-    @Override
-    public void connectSuccess() {
-
     }
 
     @Override
     public void bedcardGetbedinfoSuccess(BedInfoBean data) {
-
+        hideWaitingDialog();
         BedInfoBeanDb b = collectionInfoDao.queryBuilder().where(
                 BedInfoBeanDbDao.Properties.Id.eq(0)).unique();
         BedInfoBeanDb bedInfoBeanDb = new BedInfoBeanDb();
@@ -470,20 +352,14 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void bedcardGetbedinfoFail() {
-//        showFailDialog();
-        initData();
-    }
-
-    @Override
     public void downAppSuccess() {
-
+      hideWaitingDialog();
     }
-
 
     @Override
     public void showError(String message) {
-
+        hideWaitingDialog();
+        ToastUtils.showLongToast(message);
     }
 
     @OnClick({R.id.iv_right, R.id.rl_dutydoctor, R.id.rl_dutyNurse})
@@ -504,22 +380,14 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 }
                 break;
             case R.id.iv_right:
-//                toggleRing();
                 startActivityIn(new Intent(this, ContentsActivity.class), this);
                 break;
         }
     }
 
-    @Override
-    protected void initTime(String nowTime) {
-        if (actionbarTitle != null) {
-            actionbarTitle.setText(nowTime);
-        }
-    }
-
     @Subscribe
     public void getEventBus(SettingEvenBus settingEvenBus) {
-        mPresenter.bedcardGetbedinfo(true, "code", Build.SERIAL);
+        bedcardGetbedinfo();
     }
 
     public void showFailDialog() {
@@ -549,6 +417,5 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             }
         });
     }
-
 
 }

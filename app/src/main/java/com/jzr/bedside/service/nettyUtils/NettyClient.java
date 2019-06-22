@@ -29,49 +29,53 @@ public class NettyClient {
 
     private Channel channel;
 
-    private boolean isConnect = false;
+    public boolean isConnect = false;
 
     private int reconnectNum = Integer.MAX_VALUE;
 
-    private long reconnectIntervalTime = 5000;
+    private long reconnectIntervalTime = 100;
     private Bootstrap bootstrap;
+    private ChannelFuture channelFuture;
 
     public static NettyClient getInstance() {
         return nettyClient;
     }
 
     public synchronized NettyClient connect() {
-        if (!isConnect) {
-            group = new NioEventLoopGroup();
-             bootstrap = new Bootstrap().group(group)
-                    .option(ChannelOption.SO_KEEPALIVE, true)
-                    .channel(NioSocketChannel.class)
-//					.handler(new NettyClientInitializer(listener));
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new IdleStateHandler(20, 10, 0));
-                            ch.pipeline().addLast(new ObjectEncoder());
-                            ch.pipeline().addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)));
-                            ch.pipeline().addLast(new NettyClientHandler(listener));
-                        }
-                    });
 
+        if (!isConnect) {
             try {
-                bootstrap.connect(PreferUtil.getInstance().getSoketIp(),
+                group = new NioEventLoopGroup();
+                bootstrap = new Bootstrap().group(group)
+                        .option(ChannelOption.SO_KEEPALIVE, true)
+                        .channel(NioSocketChannel.class)
+//					.handler(new NettyClientInitializer(listener));
+                        .handler(new ChannelInitializer<SocketChannel>() {
+                            @Override
+                            public void initChannel(SocketChannel ch) throws Exception {
+                                ch.pipeline().addLast(new IdleStateHandler(20, 10, 0));
+                                ch.pipeline().addLast(new ObjectEncoder());
+                                ch.pipeline().addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)));
+                                ch.pipeline().addLast(new NettyClientHandler(listener));
+                            }
+                        });
+                channelFuture =   bootstrap.connect(PreferUtil.getInstance().getSoketIp(),
                         Integer.parseInt(PreferUtil.getInstance().getSoketPort())).addListener(new ChannelFutureListener() {
                     @Override
                     public void operationComplete(ChannelFuture channelFuture) throws Exception {
                         if (channelFuture.isSuccess()) {
-                            Logger.e("connect  Success");
+                            Logger.e("socket 连接成功");
                             isConnect = true;
                             channel = channelFuture.channel();
                         } else {
+                            Logger.e("socket 连接失败");
                             isConnect = false;
                         }
                     }
                 }).sync();
+//                channelFuture.channel().closeFuture().sync();
             } catch (Exception e) {
+                Logger.e(e.toString());
                 listener.onServiceStatusConnectChanged(NettyListener.STATUS_CONNECT_ERROR);
                 reconnect();
             }
@@ -80,25 +84,42 @@ public class NettyClient {
     }
 
     public void disconnect() {
-        if (EmptyUtils.isNotEmpty(group))
-            group.shutdownGracefully();
-        if(bootstrap!=null){
-            bootstrap =null;
+        try {
+            if (null != channelFuture) {
+                if (channelFuture.channel() != null && channelFuture.channel().isOpen()) {
+                    channelFuture.channel().close();
+                }
+            }
+            if (EmptyUtils.isNotEmpty(group))
+                group.shutdownGracefully();
+            if (bootstrap != null) {
+                bootstrap = null;
+            }
+            if (channel != null) {
+                channel = null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+        NettyService.destroyThread();
     }
 
     public void reconnect() {
-        if (reconnectNum > 0 && !isConnect) {
-            reconnectNum--;
-            try {
-                Thread.sleep(reconnectIntervalTime);
-            } catch (InterruptedException e) {
+        try {
+            if (reconnectNum > 0 && !isConnect) {
+                reconnectNum--;
+                try {
+                    disconnect();
+                    Thread.sleep(reconnectIntervalTime);
+                } catch (InterruptedException e) {
+                }
+                Logger.e("socket 重新连接");
+                connect();
+            } else {
+                disconnect();
             }
-//            Logger.e("重新连接");
-            disconnect();
-            connect();
-        } else {
-            disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

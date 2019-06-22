@@ -28,7 +28,7 @@ import butterknife.OnClick;
 
 public class ExpenseActivity extends BaseActivity implements ExpenseContract.View {
 
-    private ExpenseActivityPresenter mPresenter = new ExpenseActivityPresenter(this);
+    private ExpenseActivityPresenter mPresenter = new ExpenseActivityPresenter();
     private ExpenseApadter apadter;
     public BedInfoBean bedInfoBean;
     private List<ExpenseDetailBean.DataBean> dataBeans = new ArrayList<>();

@@ -6,10 +6,9 @@
     android:layout_width="800dp"
     android:layout_height="680dp"
     android:layout_marginLeft="@dimen/bj_30dp"
-    android:layout_marginTop="@dimen/bj_30dp"
+    android:layout_marginTop="@dimen/bj_20dp"
     android:background="@drawable/linearlayout_bg"
     tools:context="com.jzr.bedside.ui.SettingActivity">
-
 
     <TextView
         android:id="@+id/tv_name"

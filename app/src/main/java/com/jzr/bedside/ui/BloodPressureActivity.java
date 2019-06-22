@@ -152,7 +152,6 @@ public class BloodPressureActivity extends BaseActivity {
                                     } else {
 //                                    Toast.makeText(DeviceActivity.this,"蓝牙芯片类型读取失败",Toast.LENGTH_SHORT).show();
                                     }
-
                                     break;
                                 case REQUEST_FAILED:
                                     break;
@@ -164,8 +163,6 @@ public class BloodPressureActivity extends BaseActivity {
                 }else {
                     ToastUtils.showLongToast("设备不匹配");
                 }
-
-
             }
         });
 
@@ -185,6 +182,7 @@ public class BloodPressureActivity extends BaseActivity {
                     tvPressure.withNumber(nibpResolve.getPressure()).start();
                     butStart.setText("测量中...");
                     Start = true;
+
                 }
                 if (nibpResolve.getType().equals(NibpResolve.NIBP_TYPE_MEASURED)) {
                     //测量完成
@@ -194,7 +192,7 @@ public class BloodPressureActivity extends BaseActivity {
                     tvSbp.setText(String.valueOf(nibpResolve.getSbp()));
                     butStart.setText("重新测量...");
                     Start = false;
-                  tvPressure.withNumber(nibpResolve.getPressure()).start();
+                    tvPressure.withNumber(nibpResolve.getPressure()).start();
                 }
 //                id_nibp_test.setText(nibpResolve.toString());
             }
@@ -295,7 +293,6 @@ public class BloodPressureActivity extends BaseActivity {
             mDialog = null;
         }
     }
-
 
     private EcgViewInterface ecgViewListener = new EcgViewInterface() {
         @Override

@@ -16,17 +16,9 @@ import rx.schedulers.Schedulers;
 
 public class ExpenseActivityPresenter extends BasePresenter<ExpenseContract.View> implements ExpenseContract.Presenter<ExpenseContract.View> {
 
-
-
-    public ExpenseActivityPresenter(BaseActivity context) {
-        super(context);
-
-    }
-
-
     @Override
     public void getThisAndDetailAllByCondition(String... s) {
-        mContext.showWaitingDialog("加载中...");
+
         addSubscrebe(Api.getInstance().getThisAndDetailAllByCondition(s)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -40,12 +32,12 @@ public class ExpenseActivityPresenter extends BasePresenter<ExpenseContract.View
                     @Override
                     public void onError(Throwable e) {
                         LogUtils.e(e.toString());
-                        mContext.hideWaitingDialog();
+
                     }
 
                     @Override
                     public void onNext(ExpenseDetailBean data) {
-                        mContext.hideWaitingDialog();
+
                         if (mView != null && data != null && data.getCode()==0) {
                             mView.getThisAndDetailAllByConditionSuccess(data);
                         }else

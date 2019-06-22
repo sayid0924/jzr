@@ -36,13 +36,23 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0"
         multiDexEnabled true
+
+        ndk {
+            moduleName "app"
+            abiFilters 'armeabi-v7a'
+        }
+
+
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
+            minifyEnabled true
+            zipAlignEnabled true  //压缩优化
+            shrinkResources true  //移出无用资源
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardt-rules.pro'
         }
     }
 
@@ -55,6 +65,12 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 
     allprojects {
@@ -96,16 +112,21 @@ dependencies {
     implementation 'com.jaeger.statusbaruitl:library:1.3.5'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4'
-
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
-    implementation files('libs/classes.jar')
+    //    implementation files('libs/classes.jar')
     implementation files('libs/netty-all-4.1.30.Final.jar')
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.rabbitmq:amqp-client:4.4.1'
     implementation 'com.dou361.ijkplayer:jjdxm-ijkplayer:1.0.5'
     implementation 'com.github.yhaolpz:FloatWindow:1.0.9'
-
     implementation 'com.inuker.bluetooth:library:1.4.0'
     implementation(name: 'MedxingDev', ext: 'aar')
     implementation(name: 'ecgwavelibrary-release', ext: 'aar')
+    implementation files('libs/classes.jar')
+    implementation files('libs/star_rtc_sdk.jar')
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
 }

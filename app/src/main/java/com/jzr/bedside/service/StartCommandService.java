@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 
+import com.blankj.utilcode.utils.ThreadPoolUtils;
 import com.jzr.bedside.base.BaseApplication;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 public class StartCommandService extends Service {
     private ActivityManager mActivityManager;
+
+    private ThreadPoolUtils MAIN_EXECUTOR = new ThreadPoolUtils(ThreadPoolUtils.Type.FixedThread, 3);
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -27,7 +30,7 @@ public class StartCommandService extends Service {
     @Override
     public void onCreate() {
 
-        BaseApplication.MAIN_EXECUTOR.scheduleWithFixedDelay(StartService(), 0, 2, TimeUnit.SECONDS);
+        MAIN_EXECUTOR.scheduleWithFixedDelay(StartService(), 0, 2, TimeUnit.SECONDS);
         mActivityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
     }

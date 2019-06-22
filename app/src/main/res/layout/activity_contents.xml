@@ -22,7 +22,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bj_50dp"
+        android:layout_marginTop="@dimen/bj_30dp"
         android:orientation="horizontal">
 
 
@@ -37,89 +37,89 @@
             android:id="@+id/iv_cctv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
             android:src="@drawable/cctv" />
 
         <ImageView
-            android:visibility="visible"
             android:id="@+id/iv_Service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/button6" />
+            android:src="@drawable/button6"
+            android:visibility="visible" />
 
         <ImageView
-            android:visibility="visible"
             android:id="@+id/iv_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/jiankang" />
+            android:src="@drawable/jiankang"
+            android:visibility="visible" />
 
         <ImageView
-            android:visibility="visible"
             android:id="@+id/iv_expense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/button2" />
+            android:src="@drawable/button2"
+            android:visibility="visible" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bj_50dp"
+        android:layout_marginTop="@dimen/bj_30dp"
         android:orientation="horizontal">
 
 
         <ImageView
-            android:visibility="visible"
             android:id="@+id/iv_pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/zhifu" />
+            android:src="@drawable/zhifu"
+            android:visibility="visible" />
 
         <ImageView
-            android:visibility="visible"
             android:id="@+id/iv_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/yongyao" />
+            android:src="@drawable/yongyao"
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/iv_mrdering_meals"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/button5" />
+            android:src="@drawable/button5"
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/iv_temp"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/xieyangyi" />
+            android:src="@drawable/xieyangyi"
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/iv_oximetry"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/tiwenji" />
+            android:src="@drawable/tiwenji"
+            android:visibility="visible" />
 
     </LinearLayout>
 
@@ -127,49 +127,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bj_50dp"
+        android:layout_marginTop="@dimen/bj_30dp"
         android:orientation="horizontal">
 
 
         <ImageView
-            android:visibility="visible"
             android:id="@+id/iv_bloodpressur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/xieyayi" />
+            android:src="@drawable/xieyayi"
+            android:visibility="visible" />
 
         <ImageView
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/yongyao" />
+            android:src="@drawable/yongyao"
+            android:visibility="invisible" />
 
         <ImageView
-            android:visibility="invisible"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            android:src="@drawable/button5" />
+            android:src="@drawable/button5"
+            android:visibility="invisible" />
 
         <ImageView
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            />
+            android:src="@drawable/yongyao"
+            android:visibility="invisible" />
 
         <ImageView
-            android:visibility="invisible"
+            android:src="@drawable/yongyao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bj_50dp"
+            android:layout_marginLeft="@dimen/bj_30dp"
             android:layout_weight="1"
-            />
+            android:visibility="invisible" />
 
     </LinearLayout>
 

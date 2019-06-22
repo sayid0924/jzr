@@ -24,7 +24,6 @@
             android:layout_centerVertical="true"
             android:visibility="invisible" />
 
-
         <TextView
             android:id="@+id/left_title"
             android:layout_width="wrap_content"
@@ -35,8 +34,8 @@
             android:layout_toRightOf="@+id/iv_back"
             android:singleLine="true"
             android:text=""
-            android:textColor="@color/color_2B2B2B"
-            android:textSize="35sp"
+            android:textColor="#42929D"
+            android:textSize="@dimen/wz_25sp"
             android:visibility="invisible" />
 
     </RelativeLayout>

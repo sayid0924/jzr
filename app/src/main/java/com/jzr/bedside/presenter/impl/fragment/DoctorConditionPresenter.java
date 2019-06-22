@@ -16,9 +16,7 @@ import rx.schedulers.Schedulers;
 
 public class DoctorConditionPresenter extends BasePresenter<DoctorConditionContract.View> implements DoctorConditionContract.Presenter<DoctorConditionContract.View> {
 
-    public DoctorConditionPresenter(BaseActivity context) {
-        super(context);
-    }
+
 
 
     @Override

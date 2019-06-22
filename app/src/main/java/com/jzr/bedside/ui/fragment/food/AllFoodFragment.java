@@ -9,6 +9,9 @@ import com.jzr.bedside.R;
 import com.jzr.bedside.base.BaseFragment;
 import com.jzr.bedside.base.Constant;
 import com.jzr.bedside.bean.FoodBean;
+import com.jzr.bedside.bean.FoodMenuBean;
+import com.jzr.bedside.presenter.contract.fragment.AllFoodFragmentContract;
+import com.jzr.bedside.presenter.impl.fragment.AllFoodFragmentPresenter;
 import com.jzr.bedside.ui.apadter.AllFoodAdviceApadter;
 
 import java.util.ArrayList;
@@ -20,7 +23,10 @@ import butterknife.BindView;
  * Created by Bben on 2018/11/6.
  */
 
-public class AllFoodFragment extends BaseFragment {
+public class AllFoodFragment extends BaseFragment implements AllFoodFragmentContract.View {
+
+
+    private AllFoodFragmentPresenter presenter = new AllFoodFragmentPresenter();
 
     @BindView(R.id.rv_food)
     RecyclerView rvFood;
@@ -47,6 +53,9 @@ public class AllFoodFragment extends BaseFragment {
     @Override
     protected void initView(Bundle bundle) {
 
+        presenter.getFoodMenuSelectAll();
+
+
         foodBeanList.add(new FoodBean("鸡蛋小炒肉饭","https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1549895172&di=132d3c1f20f8e7b9c40c0a6a523547d5&src=http://e.hiphotos.baidu.com/bainuo/crop=0,8,700,424;w=470;q=80/sign=12c0abb4f0dcd100d9d3a2614fbb6b28/5243fbf2b21193139979fe096d380cd791238d54.jpg","doc","36"));
         foodBeanList.add(new FoodBean("鸡蛋小炒肉饭","https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1549895172&di=132d3c1f20f8e7b9c40c0a6a523547d5&src=http://e.hiphotos.baidu.com/bainuo/crop=0,8,700,424;w=470;q=80/sign=12c0abb4f0dcd100d9d3a2614fbb6b28/5243fbf2b21193139979fe096d380cd791238d54.jpg","doc","36"));
         foodBeanList.add(new FoodBean("鸡蛋小炒肉饭","https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1549895172&di=132d3c1f20f8e7b9c40c0a6a523547d5&src=http://e.hiphotos.baidu.com/bainuo/crop=0,8,700,424;w=470;q=80/sign=12c0abb4f0dcd100d9d3a2614fbb6b28/5243fbf2b21193139979fe096d380cd791238d54.jpg","doc","36"));
@@ -65,7 +74,16 @@ public class AllFoodFragment extends BaseFragment {
 
     @Override
     public void attachView() {
+           presenter.attachView(this);
+    }
+
+    @Override
+    public void getFoodMenuSelectAllSuccess(FoodMenuBean foodMenuBean) {
 
     }
 
+    @Override
+    public void showError(String message) {
+
+    }
 }

@@ -6,7 +6,6 @@
     android:layout_marginLeft="@dimen/bj_20dp"
     android:layout_marginRight="@dimen/bj_20dp"
     android:layout_marginTop="@dimen/bj_5dp"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">

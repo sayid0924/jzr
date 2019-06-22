@@ -50,7 +50,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/bj_45dp"
             android:layout_toRightOf="@+id/tv_sn"
-            android:text="12615615156"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 
@@ -87,7 +87,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/bj_45dp"
             android:layout_toRightOf="@+id/tv_ip"
-            android:text="12615615156"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 
@@ -100,7 +100,7 @@
 
 
     <RelativeLayout
-
+android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bj_60dp"
         android:layout_marginLeft="@dimen/bj_20dp"
@@ -124,11 +124,14 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/bj_20dp"
             android:layout_toRightOf="@+id/tv_location"
-            android:text="12615615156"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 
     </RelativeLayout>
+
+
+
 
     <View
         android:layout_width="match_parent"
@@ -148,7 +151,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="13dp"
             android:text="系统版本: "
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
@@ -161,7 +165,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/bj_20dp"
             android:layout_toRightOf="@+id/tv_version"
-            android:text="12615615156"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 
@@ -198,7 +202,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/bj_20dp"
             android:layout_toRightOf="@+id/tv_mac"
-            android:text="12615615156"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 

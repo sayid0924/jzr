@@ -57,8 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawablePadding="@dimen/bj_10dp"
             android:drawableRight="@drawable/test_icon"
+            android:drawablePadding="@dimen/bj_10dp"
             android:text="网络连接测试"
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
@@ -94,7 +94,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/edittext_bg"
             android:gravity="center"
-            android:text="80"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 
@@ -139,7 +139,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/edittext_bg"
             android:gravity="center"
-            android:text="8880"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 
@@ -152,8 +152,8 @@
             android:layout_marginRight="@dimen/bj_25dp"
             android:background="@drawable/test_result_fail"
             android:textColor="@color/color_2B2B2B"
-            android:visibility="gone"
-            android:textSize="@dimen/wz_25sp" />
+            android:textSize="@dimen/wz_25sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_socket_connecttest"
@@ -161,8 +161,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawablePadding="@dimen/bj_10dp"
             android:drawableRight="@drawable/test_icon"
+            android:drawablePadding="@dimen/bj_10dp"
             android:text="Socket连接测试"
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
@@ -198,7 +198,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/edittext_bg"
             android:gravity="center"
-            android:text="8880"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 
@@ -243,11 +243,99 @@
             android:layout_centerInParent="true"
             android:background="@drawable/edittext_bg"
             android:gravity="center"
-            android:text="8880"
+            android:text=""
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:id="@+id/tv_binding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="13dp"
+            android:text="绑定床位号"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/bj_50dp"
+            android:id="@+id/tv_binding_bedno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/tv_binding"
+            android:background="@drawable/edittext_bg"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_2dp"
+        android:background="@color/color_EEEEEE" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bj_60dp"
+        android:layout_marginLeft="@dimen/bj_20dp"
+        android:layout_marginRight="@dimen/bj_30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="绑定科室"
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <TextView
+            android:id="@+id/tv_check_dept"
+            android:layout_width="@dimen/bj_350dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/edittext_bg"
+            android:gravity="center"
+            android:hint="请选择科室"
+            android:text=""
+            android:textColor="@color/color_2B2B2B"
+            android:textSize="@dimen/wz_25sp" />
+
+        <Button
+            android:id="@+id/bt_check_dept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/bj_5dp"
+            android:layout_marginBottom="@dimen/bj_5dp"
+            android:background="@drawable/button_bg"
+            android:padding="@dimen/bj_10dp"
+            android:text="绑定科室"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wz_25sp" />
+
+    </RelativeLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -262,13 +350,13 @@
         android:layout_marginRight="@dimen/bj_30dp">
 
         <TextView
-            android:layout_toLeftOf="@+id/tv_wifi_info"
             android:id="@+id/tv_wifi"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:gravity="center|left"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_wifi_info"
+            android:gravity="center|left"
             android:text="WIFI"
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />
@@ -292,15 +380,15 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/bj_10dp"
             android:layout_toLeftOf="@+id/iv_wifi_level"
-            android:text="ddddddd"
+            android:text=""
             android:textSize="@dimen/wz_25sp" />
 
 
         <ImageView
-            android:layout_centerVertical="true"
             android:id="@+id/iv_wifi_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/bj_10dp"
             android:layout_toLeftOf="@+id/switch_wifi"
             android:background="@drawable/wifi_0" />
@@ -323,8 +411,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:gravity="center|left"
             android:layout_centerVertical="true"
+            android:gravity="center|left"
             android:text="打开Locgcat"
             android:textColor="@color/color_2B2B2B"
             android:textSize="@dimen/wz_25sp" />

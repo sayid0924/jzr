@@ -20,20 +20,27 @@ import com.jzr.bedside.base.Constant;
 import com.jzr.bedside.base.ExpenseDetailBean;
 import com.jzr.bedside.base.PayInfoBean;
 import com.jzr.bedside.bean.BedInfoBean;
+import com.jzr.bedside.bean.CheckDeptBean;
+import com.jzr.bedside.bean.DeviceBean;
 import com.jzr.bedside.bean.DoctorBean;
 import com.jzr.bedside.bean.DoctorByConditionBean;
+import com.jzr.bedside.bean.FoodMenuBean;
 import com.jzr.bedside.bean.HospitalBean;
 import com.jzr.bedside.bean.MedicationRecordBean;
 import com.jzr.bedside.bean.NurseInfoBean;
 import com.jzr.bedside.bean.TQuestionBean;
 import com.jzr.bedside.bean.VideoBean;
+import com.jzr.bedside.bean.boby.DeviceBoby;
 
 import java.util.Map;
 
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 import rx.Observable;
 
 public interface ApiService {
@@ -42,7 +49,7 @@ public interface ApiService {
     /**
      * 根据设备编号获取床位及病人信息
      */
-    @GET(Constant.BEDCARD_GETBEDINFO)
+    @GET(Constant.API_BEDCARD_GETBEDCARDINFO)
     Observable<BedInfoBean> bedcardGetbedinfo(@QueryMap Map<String, String> map);
 
     /**
@@ -50,6 +57,13 @@ public interface ApiService {
      */
     @POST(Constant.TEST_LINK)
     Observable<ResponseBody> TestLink(@QueryMap Map<String, String> map);
+
+    /**
+     * 下载app
+     */
+    @Streaming
+    @GET
+    Observable<ResponseBody> downApp(@Url String url);
 
     /**
      * 获取对应位置
@@ -116,5 +130,35 @@ public interface ApiService {
      */
     @POST(Constant.GETTHISANDDETAILALLBYCONDITION)
     Observable<ExpenseDetailBean> getThisAndDetailAllByCondition(@QueryMap Map<String, String> map);
+
+    /**
+     * 绑定床头卡
+     */
+    @POST(Constant.API_BEDCARD_BINDTOBED)
+    Observable<DeviceBean> getBedcardBindtobed(@Body DeviceBoby deviceBoby);
+
+    /**
+     * 获取科室列表
+     */
+    @GET(Constant.API_DEPT_CODELIST)
+    Observable<CheckDeptBean> getDeptCodelist(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取科室房间列表
+     */
+    @GET(Constant.API_DEPT_ROOMLIST)
+    Observable<CheckDeptBean> getDeptRoomList(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取科室房间床位列表
+     */
+    @GET(Constant.API_DEPT_BEDLIST)
+    Observable<CheckDeptBean> getDeptBedList(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取食堂菜单列表
+     */
+    @GET(Constant.API_FOODMENU_SELECTALL)
+    Observable<FoodMenuBean> getFoodMenuSelectAll(@QueryMap Map<String, String> map);
 
 }

@@ -37,7 +37,7 @@ import butterknife.OnClick;
 
 public class HospitalActivity extends BaseActivity implements HospitalActivityContract.View,  VerticalTabLayout.OnTabSelectedListener {
 
-    private HospitalActivityPresenter mPresenter =new HospitalActivityPresenter(this);
+    private HospitalActivityPresenter mPresenter =new HospitalActivityPresenter();
     private ArrayList<String> mTitleList = new ArrayList<>();
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
@@ -114,9 +114,9 @@ public class HospitalActivity extends BaseActivity implements HospitalActivityCo
         BedInfoBeanDb infoBeanDb = collectionInfoDao.queryBuilder().where(
                 BedInfoBeanDbDao.Properties.Id.eq(0)).unique();
         if (infoBeanDb != null) {
-            if (EmptyUtils.isNotEmpty(infoBeanDb.getBedInfoBean().getData().getTpatientVo().getHospitalId())) {
-                mPresenter.selectByHospitalId("hospitalId", String.valueOf(infoBeanDb.getBedInfoBean().getData().getTpatientVo().getHospitalId()));
-            }
+//            if (EmptyUtils.isNotEmpty(infoBeanDb.getBedInfoBean().getData().getTpatientVo().getHospitalId())) {
+//                mPresenter.selectByHospitalId("hospitalId", String.valueOf(infoBeanDb.getBedInfoBean().getData().getTpatientVo().getHospitalId()));
+//            }
         }
 
         hospitalActivity= this;

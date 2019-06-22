@@ -1,5 +1,6 @@
 package com.jzr.bedside.appmanage;
 
+
 import android.app.PackageInstallObserver;
 import android.app.Service;
 import android.content.Intent;
@@ -99,25 +100,25 @@ public class AppManagerService extends Service {
             LogUtil.i(TAG, "use default path, path = " + DEFAULT_DOWNLOAD_PATH);
             path = DEFAULT_DOWNLOAD_PATH;
         }
-        OkHttpUtil.download(url, path, new DownloadFileListener() {
-            @Override
-            public void onDownloadSuccess(File file) {
-                LogUtil.i("TAG", "onDownloadSuccess, file = " + file.getName());
-                installApp(file);
-
-            }
-
-            @Override
-            public void onDownloading(int progress) {
-                LogUtil.i(TAG, "onDownloading, progress = " + progress);
-
-            }
-
-            @Override
-            public void onDownloadFailed(Exception e) {
-                LogUtil.i(TAG, "onDownloadFailed, e = " + e.getMessage(), e);
-            }
-        });
+//        OkHttpUtil.download(url, path, new DownloadFileListener() {
+//            @Override
+//            public void onDownloadSuccess(File file) {
+//                LogUtil.i("TAG", "onDownloadSuccess, file = " + file.getName());
+//                installApp(file);
+//
+//            }
+//
+//            @Override
+//            public void onDownloading(int progress) {
+//                LogUtil.i(TAG, "onDownloading, progress = " + progress);
+//
+//            }
+//
+//            @Override
+//            public void onDownloadFailed(Exception e) {
+//                LogUtil.i(TAG, "onDownloadFailed, e = " + e.getMessage(), e);
+//            }
+//        });
         return super.onStartCommand(intent, flags, startId);
 
     }

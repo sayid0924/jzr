@@ -62,7 +62,6 @@ public class GaugeTempActivity extends BaseActivity {
     private EcgWaveView bcgWaveView;
     private View view;
 
-
     @BindView(R.id.iv_right)
     ImageView ivRight;
     @BindView(R.id.iv_right_back)
@@ -211,9 +210,7 @@ public class GaugeTempActivity extends BaseActivity {
                 }
             }
         });
-
     }
-
 
     /**
      * 打开蓝牙服务
@@ -263,7 +260,6 @@ public class GaugeTempActivity extends BaseActivity {
         }
     }
 
-
     @OnClick({R.id.iv_right_back, R.id.iv_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -302,7 +298,6 @@ public class GaugeTempActivity extends BaseActivity {
         }
     }
 
-
     private EcgViewInterface ecgViewListener = new EcgViewInterface() {
         @Override
         public void onError(Exception e) {
@@ -316,7 +311,6 @@ public class GaugeTempActivity extends BaseActivity {
                 //  Toast.makeText(getApplication(),"时间：" + t + "ms/格",Toast.LENGTH_SHORT).show();
             } else if (i == 1) {
                 //   Toast.makeText(getApplication(),"电压："+t+"mv/格",Toast.LENGTH_SHORT).show();
-
             }
         }
     };

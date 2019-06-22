@@ -16,14 +16,10 @@ import rx.schedulers.Schedulers;
 
 public class EvaluateActivityPresenter extends BasePresenter<EvaluateActivityContract.View> implements EvaluateActivityContract.Presenter<EvaluateActivityContract.View> {
 
-    public EvaluateActivityPresenter(BaseActivity context) {
-        super(context);
-    }
-
 
     @Override
     public void questionGettQuestionvoBypage(String... s) {
-        mContext.showWaitingDialog("加载中...");
+
         addSubscrebe(Api.getInstance().questionGettQuestionvoBypage(s)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -37,12 +33,10 @@ public class EvaluateActivityPresenter extends BasePresenter<EvaluateActivityCon
                     @Override
                     public void onError(Throwable e) {
                         LogUtils.e(e.toString());
-                        mContext.hideWaitingDialog();
                     }
 
                     @Override
                     public void onNext(TQuestionBean data) {
-                        mContext.hideWaitingDialog();
                         if (mView != null && data != null && data.getCode()==0) {
                            mView.questionGettQuestionvoBypageSuccess(data);
                         }else
@@ -53,7 +47,6 @@ public class EvaluateActivityPresenter extends BasePresenter<EvaluateActivityCon
 
     @Override
     public void addTUserQuestionnaire(String... s) {
-        mContext.showWaitingDialog("加载中...");
         addSubscrebe(Api.getInstance().addTUserQuestionnaire(s)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -67,12 +60,10 @@ public class EvaluateActivityPresenter extends BasePresenter<EvaluateActivityCon
                     @Override
                     public void onError(Throwable e) {
                         LogUtils.e(e.toString());
-                        mContext.hideWaitingDialog();
                     }
 
                     @Override
                     public void onNext(TQuestionBean data) {
-                        mContext.hideWaitingDialog();
                         if (mView != null && data != null && data.getCode()==0) {
                             mView.addTUserQuestionnaireSuccess(data);
                         }else

@@ -2,7 +2,7 @@ package com.jzr.bedside.service.nettyUtils;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import com.jzr.netty.base.BaseMsg;
+import com.jzr.netty.common.base.BaseMsg;
 
 
 public class NettyClientHandler  extends SimpleChannelInboundHandler<BaseMsg> {
@@ -30,5 +30,15 @@ public class NettyClientHandler  extends SimpleChannelInboundHandler<BaseMsg> {
 	protected void channelRead0(ChannelHandlerContext channelHandlerContext,  BaseMsg baseMsg) throws Exception {
 		listener.onMessageResponse(baseMsg);
 	}
+
+
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		cause.printStackTrace();
+		ctx.close();
+	}
+
+
+
 
 }

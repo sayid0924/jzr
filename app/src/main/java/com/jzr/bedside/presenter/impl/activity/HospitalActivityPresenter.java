@@ -16,14 +16,9 @@ import rx.schedulers.Schedulers;
 
 public class HospitalActivityPresenter extends BasePresenter<HospitalActivityContract.View> implements HospitalActivityContract.Presenter<HospitalActivityContract.View> {
 
-    public HospitalActivityPresenter(BaseActivity context) {
-        super(context);
-    }
-
-
     @Override
     public void selectByHospitalId(String... s) {
-        mContext.showWaitingDialog("加载中...");
+
         addSubscrebe(Api.getInstance().selectByHospitalId(s).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HospitalBean>() {
@@ -35,13 +30,13 @@ public class HospitalActivityPresenter extends BasePresenter<HospitalActivityCon
                     @Override
                     public void onError(Throwable e) {
                         LogUtils.e(e.toString());
-                        mContext.hideWaitingDialog();
+
                         ToastUtils.showLongToast("请求错误  请重新请求........");
                     }
 
                     @Override
                     public void onNext(HospitalBean data) {
-                        mContext.hideWaitingDialog();
+
                         if (mView != null && data != null && data.getCode()==0) {
                             mView.selectByHospitalIdSuccess(data);
                         }else

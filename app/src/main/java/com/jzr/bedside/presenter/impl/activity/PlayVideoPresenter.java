@@ -16,17 +16,8 @@ import rx.schedulers.Schedulers;
 
 public class PlayVideoPresenter extends BasePresenter<PlayVideoContract.View> implements PlayVideoContract.Presenter<PlayVideoContract.View> {
 
-
-
-    public PlayVideoPresenter(BaseActivity context) {
-        super(context);
-
-    }
-
-
     @Override
     public void gettVideovoByCondition(String... s) {
-        mContext.showWaitingDialog("加载中...");
         addSubscrebe(Api.getInstance().gettVideovoByCondition(s)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -40,12 +31,11 @@ public class PlayVideoPresenter extends BasePresenter<PlayVideoContract.View> im
                     @Override
                     public void onError(Throwable e) {
                         LogUtils.e(e.toString());
-                        mContext.hideWaitingDialog();
                     }
 
                     @Override
                     public void onNext(VideoBean data) {
-                        mContext.hideWaitingDialog();
+
                         if (mView != null && data != null && data.getCode()==0) {
                             mView.gettVideovoByConditionSuccess(data);
                         }else

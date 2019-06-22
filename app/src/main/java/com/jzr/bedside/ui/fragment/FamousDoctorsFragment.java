@@ -31,7 +31,7 @@ import butterknife.BindView;
 
 public class FamousDoctorsFragment extends BaseFragment implements DoctorConditionContract.View, OnLoadmoreListener {
 
-    private DoctorConditionPresenter mPresenter= new DoctorConditionPresenter(HospitalActivity.hospitalActivity);
+    private DoctorConditionPresenter mPresenter= new DoctorConditionPresenter();
 
     private HospitalBean hospitalBean;
     private  int pageNum =1;

@@ -28,7 +28,7 @@ import butterknife.OnClick;
 
 public class PlayVideoActivity extends BaseActivity  implements PlayVideoContract.View, OnLoadmoreListener {
 
-    private PlayVideoPresenter mPresenter = new PlayVideoPresenter(this);
+    private PlayVideoPresenter mPresenter = new PlayVideoPresenter();
 
     private List<VideoBean.DataBean.ListBean>  videoBeans = new ArrayList<>();
     private PlayVideoApadter playVideoApadter;

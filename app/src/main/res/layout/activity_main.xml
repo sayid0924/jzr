@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
-
     <include
         android:id="@+id/rootbar"
         layout="@layout/actionbar_root_layout" />
@@ -40,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/view_line"
-        android:background="@drawable/home_bg"
+        android:background="@drawable/bg_p"
         android:orientation="horizontal">
 
         <include layout="@layout/include_patient_info" />
@@ -51,7 +50,7 @@
             android:layout_marginBottom="@dimen/bj_20dp"
             android:layout_marginLeft="@dimen/bj_20dp"
             android:layout_marginRight="@dimen/bj_20dp"
-            android:layout_marginTop="@dimen/bj_30dp"
+            android:layout_marginTop="@dimen/bj_20dp"
             android:layout_toRightOf="@+id/patient_info"
             android:background="@drawable/rvlayout_bg">
 
@@ -62,6 +61,7 @@
                 android:layout_marginLeft="@dimen/bj_20dp"
                 android:layout_marginRight="@dimen/bj_20dp"
                 android:layout_marginTop="@dimen/bj_20dp"
+                android:layout_marginBottom="@dimen/bj_20dp"
                 android:overScrollMode="never" />
 
         </RelativeLayout>

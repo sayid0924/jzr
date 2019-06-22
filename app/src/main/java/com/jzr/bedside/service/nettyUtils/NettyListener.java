@@ -1,7 +1,7 @@
 package com.jzr.bedside.service.nettyUtils;
 
 
-import com.jzr.netty.base.BaseMsg;
+import com.jzr.netty.common.base.BaseMsg;
 
 public interface NettyListener {
 

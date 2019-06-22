@@ -23,7 +23,7 @@ import butterknife.OnClick;
 
 public class PayActivity extends BaseActivity implements PayContract.View {
 
-    private PayActivityPresenter mPresenter = new PayActivityPresenter(this);
+    private PayActivityPresenter mPresenter = new PayActivityPresenter();
     private BedInfoBeanDbDao collectionInfoDao;
     public BedInfoBean bedInfoBean;
 
@@ -65,8 +65,8 @@ public class PayActivity extends BaseActivity implements PayContract.View {
         collectionInfoDao = GreenDaoUtil.getDaoSession().getBedInfoBeanDbDao();
         BedInfoBeanDb infoBeanDb = collectionInfoDao.queryBuilder().where(BedInfoBeanDbDao.Properties.Id.eq(0)).unique();
         if (infoBeanDb != null) {
-            bedInfoBean = infoBeanDb.getBedInfoBean();
-            mPresenter.getTHospitalizationExpensesVoAllByCondition("patientId", String.valueOf(bedInfoBean.getData().getTpatientVo().getId()));
+//            bedInfoBean = infoBeanDb.getBedInfoBean();
+//            mPresenter.getTHospitalizationExpensesVoAllByCondition("patientId", String.valueOf(bedInfoBean.getData().getTpatientVo().getId()));
         }
     }
 

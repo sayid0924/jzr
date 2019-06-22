@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.blankj.utilcode.utils.ThreadPoolUtils;
 import com.jzr.bedside.base.BaseApplication;
 import com.jzr.bedside.utils.PreferUtil;
 import com.orhanobut.logger.Logger;
@@ -24,11 +25,13 @@ import java.io.IOException;
 
 public class RabbitMQService extends Service {
 
-     private String exchangeName = "fanout.exchange.test";
+    private String exchangeName = "fanout.exchange.test";
+    private ThreadPoolUtils MAIN_EXECUTOR = new ThreadPoolUtils(ThreadPoolUtils.Type.FixedThread, 3);
+
     @Override
     public void onCreate() {
         super.onCreate();
-        BaseApplication.MAIN_EXECUTOR.execute(new Runnable() {
+        MAIN_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -50,7 +53,7 @@ public class RabbitMQService extends Service {
                     channel.queueBind(queue, exchangeName, "");
 //                    channel.queueDeclare(PreferUtil.getInstance().getQueueName(), true, false, false, null);
 
-                    while (true){
+                    while (true) {
                         Consumer consumer = new DefaultConsumer(channel) {
                             @Override
                             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -61,7 +64,7 @@ public class RabbitMQService extends Service {
 //                        channel.basicConsume(PreferUtil.getInstance().getQueueName(), true, consumer);
                         channel.basicConsume(queue, true, consumer);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

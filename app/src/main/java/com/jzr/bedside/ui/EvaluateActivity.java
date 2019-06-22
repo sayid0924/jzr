@@ -38,7 +38,7 @@ import butterknife.OnClick;
 
 public class EvaluateActivity extends BaseActivity implements EvaluateActivityContract.View, OnLoadmoreListener {
 
-    private EvaluateActivityPresenter mPresenter = new EvaluateActivityPresenter(this);
+    private EvaluateActivityPresenter mPresenter = new EvaluateActivityPresenter();
     private EvaluateApadter evaluateApadter;
     private List<TQuestionBean.DataBean.ListBean> tQuestionBeanList = new ArrayList<>();
     private int pageNum = 1;
@@ -103,8 +103,8 @@ public class EvaluateActivity extends BaseActivity implements EvaluateActivityCo
         collectionInfoDao = GreenDaoUtil.getDaoSession().getBedInfoBeanDbDao();
         BedInfoBeanDb infoBeanDb = collectionInfoDao.queryBuilder().where(BedInfoBeanDbDao.Properties.Id.eq(0)).unique();
         if (infoBeanDb != null) {
-            bedInfoBean = infoBeanDb.getBedInfoBean();
-            mPresenter.questionGettQuestionvoBypage("userId", String.valueOf(bedInfoBean.getData().getTpatientVo().getId()), "pageNum", String.valueOf(pageNum), "pageSize", String.valueOf(pageSize));
+//            bedInfoBean = infoBeanDb.getBedInfoBean();
+//            mPresenter.questionGettQuestionvoBypage("userId", String.valueOf(bedInfoBean.getData().getTpatientVo().getId()), "pageNum", String.valueOf(pageNum), "pageSize", String.valueOf(pageSize));
         }
     }
 
@@ -252,8 +252,8 @@ public class EvaluateActivity extends BaseActivity implements EvaluateActivityCo
                     }
                     stringBuffer.deleteCharAt(stringBuffer.length() - 1);
                     if(EmptyUtils.isNotEmpty(bedInfoBean)){
-                        mPresenter.addTUserQuestionnaire("userId",String.valueOf(bedInfoBean.getData().getTpatientVo().getId()),
-                                "questionAnswerIds", stringBuffer.toString());
+//                        mPresenter.addTUserQuestionnaire("userId",String.valueOf(bedInfoBean.getData().getTpatientVo().getId()),
+//                                "questionAnswerIds", stringBuffer.toString());
                     }
                     Logger.e(stringBuffer.toString());
                 }
@@ -296,8 +296,10 @@ public class EvaluateActivity extends BaseActivity implements EvaluateActivityCo
     public void onLoadmore(RefreshLayout refreshlayout) {
         if (pageNum < pages) {
             pageNum++;
-            if (EmptyUtils.isNotEmpty(bedInfoBean))
-                mPresenter.questionGettQuestionvoBypage("userId", String.valueOf(bedInfoBean.getData().getTpatientVo().getId()), "pageNum", String.valueOf(pageNum), "pageSize", String.valueOf(pageSize));
+            if (EmptyUtils.isNotEmpty(bedInfoBean)){
+
+            }
+//                mPresenter.questionGettQuestionvoBypage("userId", String.valueOf(bedInfoBean.getData().getTpatientVo().getId()), "pageNum", String.valueOf(pageNum), "pageSize", String.valueOf(pageSize));
         } else {
             isLastPage = true;
             srl.setEnableLoadmore(false);

@@ -31,7 +31,7 @@ import butterknife.OnClick;
 
 public class RecordActivity extends BaseActivity implements RecordContract.View, OnLoadmoreListener {
 
-    private RecordActivityPresenter mPresenter = new RecordActivityPresenter(this);
+    private RecordActivityPresenter mPresenter = new RecordActivityPresenter();
     String[] doc = {"奥美拉唑肠溶颗粒", "盐酸阿来替尼胶囊", "糠酸氟替卡松维兰特罗吸入粉雾剂",
             "盐酸安罗替尼胶囊", "参芪五味子胶囊"};
     private RecordApadter recordApadter;
@@ -172,9 +172,11 @@ public class RecordActivity extends BaseActivity implements RecordContract.View,
     public void onLoadmore(RefreshLayout refreshlayout) {
         if (pageNum < pages) {
             pageNum++;
-            if (EmptyUtils.isNotEmpty(bedInfoBean))
-                mPresenter.selectByMedicationRecordid("patientId", String.valueOf(bedInfoBean.getData().getTpatientVo().getId()),
-                        "pageNum", String.valueOf(pageNum), "pageSize", String.valueOf(pageSize));
+            if (EmptyUtils.isNotEmpty(bedInfoBean)){
+
+            }
+//                mPresenter.selectByMedicationRecordid("patientId", String.valueOf(bedInfoBean.getData().getTpatientVo().getId()),
+//                        "pageNum", String.valueOf(pageNum), "pageSize", String.valueOf(pageSize));
         } else {
             srl.setEnableLoadmore(false);
         }

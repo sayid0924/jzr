@@ -9,29 +9,39 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.AppUtils;
+import com.blankj.utilcode.utils.EmptyUtils;
 import com.jzr.bedside.R;
 import com.jzr.bedside.appmanage.AppManagerService;
 import com.jzr.bedside.bean.RabbitMqBean;
-import com.jzr.bedside.service.nettyUtils.NettyClient;
 import com.jzr.bedside.service.nettyUtils.NettyService;
 import com.jzr.bedside.ui.MainActivity;
+import com.jzr.bedside.ui.VoipActivity;
+import com.jzr.bedside.ui.VoipRingingActivity;
+import com.jzr.bedside.ui.apadter.CheckDeviceApadter;
+import com.jzr.bedside.utils.AEvent;
+import com.jzr.bedside.utils.IEventListener;
 import com.jzr.bedside.utils.PreferUtil;
 import com.jzr.bedside.view.SwipeBackActivity.SwipeBackActivity;
 import com.jzr.bedside.view.SwipeBackActivity.SwipeBackLayout;
 import com.jzr.bedside.view.dialog.CustomDialog;
-import com.blankj.utilcode.utils.AppUtils;
 import com.blankj.utilcode.utils.TimeUtils;
-import com.jaeger.library.StatusBarUtil;
-import com.jzr.netty.base.BaseMsg;
-import com.jzr.netty.protocol.CancelVoiceResponse;
-import com.jzr.netty.protocol.UpgradeResponse;
-import com.jzr.netty.protocol.VoiceRequest;
+import com.jzr.netty.common.base.BaseMsg;
+import com.jzr.netty.common.base.DeviceLive;
+import com.jzr.netty.common.protocol.CancelVoiceResponse;
+import com.jzr.netty.common.protocol.GetDeviceListResponse;
+import com.jzr.netty.common.protocol.UpgradeRequest;
+import com.jzr.netty.common.protocol.UpgradeResponse;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,14 +53,11 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 
 import static com.jzr.bedside.appmanage.AppManagerService.INTENT_BOOLEAN_EXTRA_AUTO_START_UP;
 import static com.jzr.bedside.appmanage.AppManagerService.INTENT_STRING_EXTRA_APK_URL;
-import static com.jzr.bedside.base.BaseApplication.MAIN_EXECUTOR;
 
-public abstract class BaseActivity extends SwipeBackActivity {
+public abstract class BaseActivity extends SwipeBackActivity implements IEventListener {
 
     public final static List<AppCompatActivity> mActivities = new LinkedList<>();
     private SwipeBackLayout mSwipeBackLayout;
@@ -77,6 +84,39 @@ public abstract class BaseActivity extends SwipeBackActivity {
                 case 3:
                     hideWaitingDialog();
                     break;
+                case 4:
+
+                    List<DeviceLive> deviceLives = (List<DeviceLive>) msg.obj;
+                    if (EmptyUtils.isNotEmpty(deviceLives)) {
+                        hideWaitingDialog();
+                        View view = View.inflate(BaseApplication.getContext(), R.layout.dialog_device_list, null);
+                        RecyclerView recyclerView = view.findViewById(R.id.rv_device_list);
+
+                        CheckDeviceApadter deviceApadter = new CheckDeviceApadter(deviceLives, BaseActivity.this);
+                        recyclerView.setAdapter(deviceApadter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(BaseActivity.this));
+                        deviceApadter.onItemClick(new CheckDeviceApadter.onItemClick() {
+                            @Override
+                            public void onItemClick(DeviceLive c) {
+                                if (EmptyUtils.isNotEmpty(mDialogWaiting) && mDialogWaiting.isShowing()) {
+
+                                    Intent intent = new Intent(BaseActivity.this, VoipActivity.class);
+                                    intent.putExtra("targetId", c.getDeviceIp());
+                                    intent.putExtra(VoipActivity.ACTION, VoipActivity.CALLING);
+                                    startActivityIn(intent, BaseActivity.this);
+                                    mDialogWaiting.dismiss();
+                                }
+                            }
+                        });
+
+                        mDialogWaiting = new CustomDialog(BaseActivity.this, view, R.style.MyDialog);
+                        mDialogWaiting.show();
+                        mDialogWaiting.setCancelable(true);
+                        mDialogWaiting.show();
+
+                    }
+
+                    break;
             }
         }
     };
@@ -84,12 +124,17 @@ public abstract class BaseActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //取消状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(getLayoutId());
 
         bind = ButterKnife.bind(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
         //沉浸式状态栏
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimaryDark), 10);
+//        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimaryDark), 10);
         attachView();
         initView();
 
@@ -99,13 +144,9 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
         EventBus.getDefault().register(this);
         if (!istask) {
-            BaseApplication.MAIN_EXECUTOR.scheduleWithFixedDelay(TimeTask(), 0, 1, TimeUnit.SECONDS);
+//            BaseApplication.MAIN_EXECUTOR.scheduleWithFixedDelay(TimeTask(), 0, 1, TimeUnit.SECONDS);
         }
-
-        BaseApplication.MAIN_EXECUTOR.scheduleWithFixedDelay(UpaddteDate(), 0, 5, TimeUnit.MINUTES);
-
     }
-
 
     public Runnable UpaddteDate() {
         return new Runnable() {
@@ -113,17 +154,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
             public void run() {
                 Message message = handler.obtainMessage();
                 message.what = 2;
-                handler.sendMessage(message);
-            }
-        };
-    }
-
-    public Runnable TimeTask() {
-        return new Runnable() {
-            @Override
-            public void run() {
-                Message message = handler.obtainMessage();
-                message.what = 1;
                 handler.sendMessage(message);
             }
         };
@@ -141,37 +171,92 @@ public abstract class BaseActivity extends SwipeBackActivity {
         }
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-
+        addListener();
     }
 
     public void onPause() {
         super.onPause();
+        removeListener();
+    }
 
+    @Override
+    public void dispatchEvent(String aEventID, boolean success, final Object eventObj) {
+        switch (aEventID) {
+            case AEvent.AEVENT_VOIP_REV_CALLING:
+                Logger.e(AEvent.AEVENT_VOIP_REV_CALLING);
+
+                Intent intent = new Intent(BaseActivity.this, VoipRingingActivity.class);
+                intent.putExtra("targetId", eventObj.toString());
+                startActivity(intent);
+
+                break;
+            case AEvent.AEVENT_VOIP_P2P_REV_CALLING:
+                Logger.e(AEvent.AEVENT_VOIP_P2P_REV_CALLING);
+                break;
+            case AEvent.AEVENT_C2C_REV_MSG:
+                Logger.e(AEvent.AEVENT_C2C_REV_MSG);
+                break;
+            case AEvent.AEVENT_GROUP_REV_MSG:
+                Logger.e(AEvent.AEVENT_GROUP_REV_MSG);
+                break;
+            case AEvent.AEVENT_USER_OFFLINE:
+                Logger.e(AEvent.AEVENT_USER_OFFLINE);
+                break;
+            case AEvent.AEVENT_USER_ONLINE:
+                Logger.e(AEvent.AEVENT_USER_ONLINE);
+                break;
+        }
+    }
+
+    private void addListener() {
+        AEvent.addListener(AEvent.AEVENT_VOIP_REV_CALLING, this);
+        AEvent.addListener(AEvent.AEVENT_VOIP_P2P_REV_CALLING, this);
+        AEvent.addListener(AEvent.AEVENT_C2C_REV_MSG, this);
+        AEvent.addListener(AEvent.AEVENT_GROUP_REV_MSG, this);
+        AEvent.addListener(AEvent.AEVENT_USER_ONLINE, this);
+        AEvent.addListener(AEvent.AEVENT_USER_OFFLINE, this);
+    }
+
+    private void removeListener() {
+        AEvent.removeListener(AEvent.AEVENT_VOIP_REV_CALLING, this);
+        AEvent.removeListener(AEvent.AEVENT_VOIP_P2P_REV_CALLING, this);
+        AEvent.removeListener(AEvent.AEVENT_C2C_REV_MSG, this);
+        AEvent.removeListener(AEvent.AEVENT_GROUP_REV_MSG, this);
+        AEvent.removeListener(AEvent.AEVENT_USER_ONLINE, this);
+        AEvent.removeListener(AEvent.AEVENT_USER_OFFLINE, this);
     }
 
     @Subscribe
     public void getEventBus(BaseMsg baseMsg) {
         Message message = handler.obtainMessage();
+        Logger.e("baseMsg.getType()    .............." + baseMsg.getType());
         switch (baseMsg.getType()) {
             case UPGRADE:
-                UpgradeResponse upgradeResponse = (UpgradeResponse) baseMsg;
-                Logger.e("getEventBus>>>>>>>     " + upgradeResponse.getAppPath());
-                Logger.e("getEventBus>>>>>>>     " + upgradeResponse.getStatus());
-                Logger.e("getEventBus>>>>>>>     " + String.valueOf(upgradeResponse.getVersion()));
-                if (upgradeResponse.getVersion() > AppUtils.getAppVersionCode(this)) {
-                    // 升级
+                UpgradeRequest upgradeRequest = (UpgradeRequest) baseMsg;
+                if (upgradeRequest.getAppVersion() > AppUtils.getAppVersionCode(this)) {
                     Logger.e("开始升级");
-                    MAIN_EXECUTOR.execute(receiveUpdate(upgradeResponse.getAppPath()));
+                    MainActivity.mainActivity.downApp(upgradeRequest.getAppUrl());
                 }
+
                 break;
 
             case CANCEL_VOICE:
                 CancelVoiceResponse cancelVideoResponse = (CancelVoiceResponse) baseMsg;
                 Logger.e("CANCEL_VOICE    ");
                 message.what = 3;
+                handler.sendMessage(message);
+
+                break;
+
+            case GET_DEVICE_LIST:
+
+                GetDeviceListResponse getDeviceListResponse = (GetDeviceListResponse) baseMsg;
+                message.what = 4;
+                message.obj = getDeviceListResponse.getList();
                 handler.sendMessage(message);
 
                 break;
@@ -190,16 +275,27 @@ public abstract class BaseActivity extends SwipeBackActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (keyCode == Constant.RING_KEY) {
-            if (event.getAction() != KeyEvent.ACTION_DOWN || event.getRepeatCount() > 0) {
-                return true;
-            }
-            switch (keyCode) {
-                case Constant.RING_KEY:
-                    toggleRing();
-                    break;
-            }
+        if (event.getAction() != KeyEvent.ACTION_DOWN || event.getRepeatCount() > 0) {
             return true;
+        }
+        switch (keyCode) {
+            case Constant.RING_KEY:
+                toggleRing();
+                break;
+            case Constant.VIDEO_KEY:
+
+
+                NettyService.GetDeviceList();
+
+
+//                Logger.e("AAAAAAAAAAAA");
+
+//                Intent intent = new Intent(this, VoipActivity.class);
+//                intent.putExtra("targetId", PreferUtil.getInstance().getLookIp());
+//                intent.putExtra(VoipActivity.ACTION, VoipActivity.CALLING);
+//                startActivityIn(intent, this);
+
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -235,6 +331,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         mDialogWaiting.setCancelable(false);
         mDialogWaiting.show();
         isToggleRing = true;
+
     }
 
 
@@ -312,14 +409,14 @@ public abstract class BaseActivity extends SwipeBackActivity {
      */
     public Dialog showWaitingDialog(String tip) {
         hideWaitingDialog();
-//        View view = View.inflate(this, R.layout.dialog_waiting, null);
-//        if (!TextUtils.isEmpty(tip))
-//            ((TextView) view.findViewById(R.id.tvTip)).setText(tip);
-//        mDialogWaiting = new CustomDialog(this, view, R.style.MyDialog);
-//        mDialogWaiting.show();
-//        mDialogWaiting.setCancelable(true);
-//        return mDialogWaiting;
-        return null;
+        View view = View.inflate(this, R.layout.dialog_waiting, null);
+        if (!TextUtils.isEmpty(tip))
+            ((TextView) view.findViewById(R.id.tvTip)).setText(tip);
+        mDialogWaiting = new CustomDialog(this, view, R.style.MyDialog);
+        mDialogWaiting.show();
+        mDialogWaiting.setCancelable(true);
+        return mDialogWaiting;
+
     }
 
     /**
@@ -338,7 +435,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
      *
      * @return
      */
-    private Runnable receiveUpdate(final String path) {
+    public Runnable receiveUpdate(final String path) {
         return new Runnable() {
             @Override
             public void run() {
@@ -356,17 +453,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
         };
     }
 
-//    @Override
-//    public void onReceive(UDPMessage message) {
-//        Message mes = handler.obtainMessage();
-//        mes.what = message.getType();
-//        handler.sendMessage(mes);
-//    }
-
-//    @Override
-//    public void sendFailure() {
-//
-//    }
 
     public abstract int getLayoutId();
 

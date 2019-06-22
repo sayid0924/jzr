@@ -17,16 +17,8 @@ import rx.schedulers.Schedulers;
 public class PayActivityPresenter extends BasePresenter<PayContract.View> implements PayContract.Presenter<PayContract.View> {
 
 
-
-    public PayActivityPresenter(BaseActivity context) {
-        super(context);
-
-    }
-
-
     @Override
     public void getTHospitalizationExpensesVoAllByCondition(String... s) {
-        mContext.showWaitingDialog("加载中...");
         addSubscrebe(Api.getInstance().getTHospitalizationExpensesVoAllByCondition(s)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -40,12 +32,10 @@ public class PayActivityPresenter extends BasePresenter<PayContract.View> implem
                     @Override
                     public void onError(Throwable e) {
                         LogUtils.e(e.toString());
-                        mContext.hideWaitingDialog();
                     }
 
                     @Override
                     public void onNext(PayInfoBean data) {
-                        mContext.hideWaitingDialog();
                         if (mView != null && data != null && data.getCode()==0) {
                             mView.getTHospitalizationExpensesVoAllByConditionSuccess(data);
                         }else

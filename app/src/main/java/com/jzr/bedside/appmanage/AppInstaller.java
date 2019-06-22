@@ -22,14 +22,10 @@ public class AppInstaller {
     // PackageManager.INSTALL_FROM_ADB
     public static final int INSTALL_FROM_ADB = 0x00000020;
 
-    public static void install(Uri packageUri, Context context, String packageName, PackageInstallObserver packageInstallObserver)  {
-
+    public static void install(Uri packageUri, Context context, String packageName, PackageInstallObserver packageInstallObserver) {
         PackageManager pm = context.getPackageManager();
-        // pm.install
-
         Method[] methods = PackageManager.class.getMethods();
         Method installPackageMethod = null;
-
         for (Method method : methods) {
             if ("installPackage".equals(method.getName())) {
                 Class<?>[] typeParameters = method.getParameterTypes();
@@ -39,36 +35,10 @@ public class AppInstaller {
                 }
             }
         }
-
-        /*
-        refer to installApk method in BackupManagerService.java
-        http://androidxref.com/5.1.0_r1/xref/frameworks/base/services/backup/java/com/android/server/backup/BackupManagerService.java#4836
-         */
-
-
-            /*
-            PackageManager.java
-
-            installPackage(
-            Uri packageURI, PackageInstallObserver observer,
-            int flags, String installerPackageName);
-            */
-
-//         pm.installPackage(packageUri, myPackageInstallObserver, INSTALL_REPLACE_EXISTING | INSTALL_FROM_ADB, packageName);
-
         try {
-
-//         installPackageMethod.invoke(pm, packageUri, packageInstallObserver, INSTALL_REPLACE_EXISTING | INSTALL_FROM_ADB, packageName);
             installPackageMethod.invoke(pm, packageUri, packageInstallObserver, INSTALL_REPLACE_EXISTING | INSTALL_FROM_ADB, packageName);
-
-        } catch (IllegalAccessException e) {
-            Log.e("TAG","vv");
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            Log.e("TAG","gg");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 }
